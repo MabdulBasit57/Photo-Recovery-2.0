@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawerLayout"
+    android:background="@color/transparant"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent">-->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/customToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/custom_toolbar"/>
+
+    <ImageView
+        android:id="@+id/toplayout"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent="0.8"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="396:302"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/main_bg"
+        app:layout_constraintTop_toBottomOf="@+id/customToolbar"/>
+
+    <ImageView
+        android:id="@+id/recycle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.82"
+        app:layout_constraintDimensionRatio="380:92"
+        app:layout_constraintTop_toBottomOf="@+id/toplayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:background="@drawable/recycle_bin_svg"/>
+
+    <ImageView
+        android:id="@+id/images"
+        android:layout_width="@dimen/_65sdp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="83:91"
+        app:layout_constraintTop_toBottomOf="@+id/recycle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/video"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:background="@drawable/photo_svg_main"/>
+    <ImageView
+        android:id="@+id/video"
+        android:layout_width="@dimen/_65sdp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="83:91"
+        app:layout_constraintTop_toBottomOf="@+id/recycle"
+        app:layout_constraintStart_toEndOf="@+id/images"
+        app:layout_constraintEnd_toStartOf="@+id/audio"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:background="@drawable/video_main_svg"/>
+    <ImageView
+        android:id="@+id/audio"
+        android:layout_width="@dimen/_65sdp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="83:91"
+        app:layout_constraintTop_toBottomOf="@+id/recycle"
+        app:layout_constraintStart_toEndOf="@+id/video"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:background="@drawable/audio_main_svg"/>
+    <ImageView
+        android:id="@+id/recovered"
+        android:layout_width="@dimen/_65sdp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="83:91"
+        app:layout_constraintTop_toBottomOf="@+id/images"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:background="@drawable/setting_main_svg"/>
+
+    <LinearLayout
+        android:id="@+id/lnMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/toplayout"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/l1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <ImageView
+                android:id="@+id/scanImgs"
+                android:layout_width="120dp"
+                android:layout_height="100dp"
+                android:layout_weight="1"/>
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/scanVideos"
+                    android:layout_width="120dp"
+                    android:layout_height="100dp" />
+
+                <ImageView
+                    android:layout_width="65dp"
+                    android:layout_height="55dp"
+                    android:id="@+id/iconVid"
+                    android:layout_marginStart="26dp"
+                    android:layout_marginTop="50dp"
+                    android:src="@drawable/icon_prem" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/l2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/l1"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/scanAudios"
+                    android:layout_width="120dp"
+                    android:layout_height="100dp"/>
+
+                <ImageView
+                    android:layout_width="65dp"
+                    android:layout_height="55dp"
+                    android:id="@+id/iconAudio"
+                    android:layout_marginStart="26dp"
+                    android:layout_marginTop="50dp"
+                    android:src="@drawable/icon_prem" />
+
+
+            </RelativeLayout>
+
+
+            <ImageView
+                android:id="@+id/recoveredImgs"
+                android:layout_width="120dp"
+                android:layout_height="100dp"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/l3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/l2"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <ImageView
+                android:id="@+id/recoveredVideos"
+                android:layout_width="120dp"
+                android:layout_height="100dp"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/recoveredAudios"
+                android:layout_width="120dp"
+                android:layout_height="100dp"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+<!--    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_drawer"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/transparant"
+        app:headerLayout="@null">
+    <include layout="@layout/left_drawer_menu" />
+    </com.google.android.material.navigation.NavigationView>
+</androidx.drawerlayout.widget.DrawerLayout>-->
+
+

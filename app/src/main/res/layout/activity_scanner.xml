@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:background="#FAFAFA"
+    tools:context="com.recover.photo.ui.activity.ScannerActivity"
+    android:focusable="true">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/customToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="@dimen/_5sdp">
+        <ImageView
+            android:id="@+id/backToolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:background="@drawable/arrow_right_svg"
+            android:layout_marginTop="@dimen/_5sdp"/>
+
+        <TextView
+            android:id="@+id/titleToolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@+id/backToolbar"
+            app:layout_constraintTop_toTopOf="@+id/backToolbar"
+            app:layout_constraintBottom_toBottomOf="@+id/backToolbar"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:textSize="@dimen/_15ssp"
+            android:textStyle="bold"
+            android:text="--- Screen"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:id="@+id/iv_start_scan_anim"
+        android:src="@drawable/loading"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:id="@+id/layOut1"
+        android:orientation="vertical"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/customToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_margin="10dp"
+            android:text="items scanned"
+            android:textAllCaps="false"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:id="@+id/tvItems"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <GridView
+            android:id="@+id/gvGallery"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:columnWidth="90dp"
+            android:numColumns="auto_fit"
+            android:verticalSpacing="10dp"
+            android:horizontalSpacing="10dp"
+            android:stretchMode="columnWidth"
+            android:gravity="center" />
+
+
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>

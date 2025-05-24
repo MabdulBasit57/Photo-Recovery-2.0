@@ -1,0 +1,157 @@
+<resources>
+    <string name="app_name">Photo recovery</string>
+
+    <string name="url_privacy">https://docs.google.com/document/d/e/2PACX-1vSVLzGF6ORR0F_ZeTQpHcNX9wUh6buEsxCnu0H43cpIB96myJKWhhuvb1Opg_1WRjBTPhx3PjY30mqG/pub</string>
+
+
+    <!--    test Ads-->
+<!--    <string name="admob_application_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>-->
+    <string name="home_interstitial_id" translatable="false">ca-app-pub-394025609435942544/1033173712</string>
+<!--    <string name="native_ad_id" translatable="false">ca-app-pub-3940256099942544/2247696110</string>-->
+    <string name="home_banner_id" translatable="false">ca-app-pub-39402535532544/6300978111</string>
+    <string name="admob_open_ad">ca-app-pub-39402563532544/9257395921</string>
+
+
+
+    <!--    <string name="admob_rewarded_ad" translatable="false">ca-app-pub-3940256099942544/5224354917</string>-->
+
+    <!--Real Ads -->
+        <string name="admob_application_id" translatable="false">ca-app-pub-7853241903456470~138351453036</string>
+<!--        <string name="home_interstitial_id" translatable="false">ca-app-pub-7853241901786470/4120060133</string>-->
+<!--        <string name="native_ad_id" translatable="false">ca-app-pub-7853241901786470/6676498063</string>-->
+<!--        <string name="home_banner_id" translatable="false">ca-app-pub-7853241901786470/2451755245</string>-->
+<!--    <string name="admob_open_ad">ca-app-pub-7853241901786470/7573958096</string>-->
+
+    <string name="appDescription">Photo recovery allows you to recover deleted photos on your phone</string>
+    <string name="autor">Basit</string>
+    <string name="descripton">Photo recovery allows you to recover deleted photos on your phone</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_subtitle">basitdevtechlyfe@gmail.com</string>
+    <string name="action_restore">Restore</string>
+    <string name="action_delete">Delete</string>
+    <string name="Privacy_policy">Privacy Policy</string>
+    <string name="agree_and_continue">Agree and Continue</string>
+    <string name="i_have_read_and_agree">I have read and agree to the</string>
+
+    <string name="title_activity_about">Settings</string>
+    <string name="home">Home</string>
+    <string name="scan_photos">Scan Photos</string>
+    <string name="TODO">TODO</string>
+    <string name="photos_recovery">Photos Recovery</string>
+    <string name="restore_deleted_photos">restore deleted photos</string>
+    <string name="TODo">TODO</string>
+    <string name="version">Version</string>
+    <string name="_1_0_0">1.0.1</string>
+    <string name="ToDo">TODO</string>
+    <string name="descritoion">Descritoion</string>
+    <string name="author">Author</string>
+    <string name="Todo">TODO</string>
+    <string name="Restored_photos">Restored Photos</string>
+    <string name="About">About</string>
+    <string name="more">More</string>
+    <string name="share">Share</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="rate_app">Rate App</string>
+    <string name="restored_photos">Restored Photos</string>
+    <string name="about">About</string>
+    <string name="todo">TODO</string>
+    <string name="FileDeletedBeforeScan">One of the files that was selected, was deleted after completing the search process here in our application, and this is an error, so now please re-scan for the deleted files again</string>
+    <string name="action_processing">Processing...</string>
+    <string name="appbar_scrolling_view_behavior">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
+    <string name="NoAbleToPay">You can not pay with this payment method , You have to check your Apps Store Payment Setting , and confirm you login to app store account used to download the app</string>
+    <string name="accept_conditions">By using the app, you agree to the terms and privacy policy mentioned here</string>
+    <string name="can_not_process">Cannot start the process , all items are unchecked!</string>
+    <string name="cannot_process_payment">There is an error, we could not confirm the payment, please contact the administration and do not repeat the payment</string>
+    <string name="cannot_restore_payment">It is not possible to retrieve any payment related to the existing account in your device, if you have previously purchased the application, you must log in to your account in the store with the same account used previously to buy the app and then come back to click this button, in case the need help contact us on</string>
+    <string name="character_counter_content_description">Character limit exceeded %1$d of %2$d</string>
+    <string name="SizeShow_all">All</string>
+    <string name="good_5_stars">Good, 5 stars</string>
+    <string name="SizeShow_icon">Icons</string>
+    <string name="SizeShow_large">Large</string>
+    <string name="SizeShow_medium">Medium</string>
+    <string name="Title_email">FeedBack</string>
+    <string name="analyzing">Searching...</string>
+    <string name="audio_recovery">Audio Recovery</string>
+    <string name="buybtn">Buy It For Life</string>
+    <string name="confirm_close">Are you sure you want to close this activity?</string>
+    <string name="confirm_exit">Do you really want to exit?</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="delete_bdy">Do you want to permanently delete them so that they can never be recovered? \10\10Note that these files may only be thumbnails of the complete files, and deleting them does not mean deleting the original file, you have to search between all files here in the application to make sure that you do not see any of these files after completing deleting them</string>
+    <string name="delete_now">Delete</string>
+    <string name="delete_title">Permanently delete?</string>
+    <string name="deleted_number_format">Deleted ... %d files</string>
+    <string name="email_feedback">basitdevtechlyfe@gmail.com</string>
+    <string name="exit_app">Exit</string>
+    <string name="faild_purchase">Error</string>
+    <string name="faild_purchse_bdy">There is a problem with the payment, it is not completed, contact us for help</string>
+    <string name="feedback">Feedback</string>
+    <string name="how_to_work">How it works?</string>
+    <string name="install_app_ads">Install Now</string>
+    <string name="language_setting">Language</string>
+    <string name="let_start">Let\'s Start</string>
+    <string name="message_dialog_feed_back">Request bug fix and implement new features via email</string>
+    <string name="more_app">More App</string>
+    <string name="need_perms">The app was not allowed to read or write to your storage. Hence, it cannot function properly. Please consider granting it this permission</string>
+    <string name="no">No</string>
+    <string name="nosubscribe">No monthly fee or subscription, only one time</string>
+    <string name="not_found">No photos found</string>
+    <string name="not_found_audio">Not found audio</string>
+    <string name="not_good">Not good</string>
+    <string name="ok">OK</string>
+    <string name="open_file">Open File</string>
+    <string name="photo_recovery">Photo Recovery</string>
+    <string name="policy">PRIVACY POLICY</string>
+    <string name="pre_top">Get back all photos,videos and files, without limits, by buying the APP once, for life</string>
+<!--    <string name="project_id">filesrecovery-for&#45;&#45;play</string>-->
+<!--    <string name="project_id">filesrecovery-for&#45;&#45;play</string>-->
+    <string name="rate_msg">Our team are working very hard to give you the best free application. Your 5-star review is worth more than all money. Please write a nice review in Google Play to encourage me.</string>
+    <string name="rateandcontinue">Rate App then continue</string>
+    <string name="rateusplease">As you see , using the app is free for now so please help us to continue and develop the application by rate it with five stars and write a good comment while you rating , then you can continue \10\10 Thanks for your support, it will help us a lot to continue \10\10We are sorry if we do not meet all your expectations, but we are always working to develop the App</string>
+    <string name="rating">Rating</string>
+    <string name="remind_later">Remind later</string>
+    <string name="restore">Restore</string>
+    <string name="restore_file">Recover File</string>
+    <string name="restore_folder_path_audio">Recovered Audios</string>
+    <string name="restore_folder_path_photo">Recovered Photos</string>
+    <string name="restore_folder_path_video">Recovered Videos</string>
+    <string name="restore_now">Recover Now</string>
+    <string name="restore_photo">Recover Deleted Files</string>
+    <string name="restoring_number_format">Recovered ... %d files</string>
+    <string name="restoring_number_format_audio">Processed ... %d files</string>
+    <string name="restoring_video">Processing video...</string>
+    <string name="scan">Scan</string>
+    <string name="scan_tip">The App help you recover deleted photos.\nThe App will show all the images(Deleted and Not Deleted).\nJust Keep looking and you will find photos you are looking for.\nPlease be patient and wait until it scans all folders and files.</string>
+    <string name="scan_wait">Please wait while scanning files...</string>
+    <string name="search_menu_title">Search</string>
+    <string name="selectAll">Select All</string>
+    <string name="send_email">Send Email</string>
+    <string name="setting">Settings</string>
+    <string name="share_file">Share File</string>
+    <string name="status_bar_notification_info_overflow">999+</string>
+    <string name="succ_purchase">Successful purchase</string>
+    <string name="title_dialog_feed_back">Send a feed back</string>
+    <string name="txt_adduremail_addemailactiviy">Email</string>
+    <string name="txt_later_addemailactiviy">Later</string>
+    <string name="txt_restor_purchase">Restore Purchase</string>
+    <string name="txt_sendform_addemailactiviy">Start</string>
+    <string name="txt_whyadduremail_addemailactiviy">Please add your E-mail so we can always send you the new icons that will be added</string>
+    <string name="vaild_email_addemailactiviy">Please enter a valid email address</string>
+    <string name="video_recovery">Video Recovery</string>
+    <string name="view_restored_photos">View Restored Photos</string>
+    <string name="yes">Yes</string>
+    <string name="no_files_found">No files Found</string>
+
+
+<!--    <string name="fb_init">IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID</string>-->
+<!--    <string name="fb_banner">IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID</string>-->
+
+
+<!--    Real Ads-->
+<!--    <string name="fb_init">305308904850118_305321131515562</string>-->
+    <string name="storage_details">Storage Details</string>
+
+    <!--    <string name="fb_banner">305308904850118_305320841515591</string>-->
+
+
+</resources>

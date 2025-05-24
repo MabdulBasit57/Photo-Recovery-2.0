@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?attr/selectableItemBackground">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/itemLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_7sdp">
+        <TextView
+            android:id="@+id/tv_folder2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:padding="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="50 Images"
+            android:layout_margin="@dimen/_5sdp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_list"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintStart_toStartOf="@+id/tv_folder2"
+            app:layout_constraintEnd_toStartOf="@+id/im_arrow"
+            app:layout_constraintTop_toBottomOf="@+id/tv_folder2"
+            android:layout_marginTop="@dimen/_7sdp"
+            android:orientation="horizontal" />
+        <ImageView
+            android:id="@+id/im_arrow"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="5dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/recycler_view_list"
+            app:layout_constraintBottom_toBottomOf="@+id/recycler_view_list"
+            android:background="@drawable/ic_arrow"
+            android:backgroundTint="@color/black"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

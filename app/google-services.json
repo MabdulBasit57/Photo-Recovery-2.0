@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1029325641318",
+    "project_id": "photo-recovery-2b7f6",
+    "storage_bucket": "photo-recovery-2b7f6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1029325641318:android:5a1151c78b00c910907fa7",
+        "android_client_info": {
+          "package_name": "fileminer.photorecovery.mobile.data.recover.diskdigger"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCNl3oUUfGwdNoo_1UbG2PU4rSDcm2_c8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

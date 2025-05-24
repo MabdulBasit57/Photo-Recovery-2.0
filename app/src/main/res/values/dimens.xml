@@ -1,0 +1,33 @@
+<resources>
+
+    <dimen name="spacing_medium">5dp</dimen>
+    <dimen name="spacing_middle">10dp</dimen>
+    <dimen name="spacing_large">15dp</dimen>
+    <dimen name="spacing_smlarge">18dp</dimen>
+    <dimen name="spacing_mlarge">20dp</dimen>
+    <dimen name="spacing_xmlarge">40dp</dimen>
+    <dimen name="spacing_xxlarge">50dp</dimen>
+    <dimen name="ProcessBar">80dp</dimen>
+    <dimen name="alternate_margin">5dp</dimen>
+    <dimen name="alternate_padding">5dp</dimen>
+    <dimen name="gallery_spacing">5dp</dimen>
+    <dimen name="height_full_ads">300dp</dimen>
+    <dimen name="height_native_ads">280dp</dimen>
+    <dimen name="img_mark_bg_size_height">90dp</dimen>
+    <dimen name="img_mark_size">70dp</dimen>
+    <dimen name="medium_text">14sp</dimen>
+    <dimen name="rippleRadius">64dp</dimen>
+    <dimen name="rippleStrokeWidth">2dp</dimen>
+    <dimen name="size_150">150dp</dimen>
+    <dimen name="size_detail_spash">10sp</dimen>
+    <dimen name="size_title_spash">17sp</dimen>
+    <dimen name="size_toolbar">15sp</dimen>
+    <dimen name="sub_big_spacing">20dp</dimen>
+    <dimen name="sub_medium_text">12sp</dimen>
+    <dimen name="text_details">10sp</dimen>
+    <dimen name="ts_20">17sp</dimen>
+    <dimen name="zero">0dp</dimen>
+    <dimen name="duplicate_space_medium">10dp</dimen>
+    <dimen name="card_elevation">5dp</dimen>
+
+</resources>
