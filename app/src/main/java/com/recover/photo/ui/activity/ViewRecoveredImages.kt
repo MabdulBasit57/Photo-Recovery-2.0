@@ -12,22 +12,27 @@ import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.recover.photo.R
+import com.recover.photo.databinding.ActivityPhotosBinding
+import com.recover.photo.databinding.ActivityViewRecoveredImagesBinding
 import java.io.File
 import java.util.Objects
 
 class ViewRecoveredImages : AppCompatActivity() {
     var files: ArrayList<File>? = ArrayList()
+    private val binding by lazy { ActivityViewRecoveredImagesBinding.inflate(layoutInflater) }
+
     var pos:Int=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_view_recovered_images)
-
-        title = "Recovered Images"
+        setContentView(binding.root)
+        binding.customToolbar.backToolbar.setOnClickListener {
+            onBackPressed()
+        }
+        binding.customToolbar.titleToolbar.text="Recovered Image"
         files?.clear()
         files = intent.getSerializableExtra("files") as ArrayList<File>?
         pos = intent.getIntExtra("position",0)
-
         val mViewPager = findViewById<ViewPager>(R.id.viewPagerMain)
         val mViewPagerAdapter = ViewPagerAdapter(this, files)
         mViewPager.adapter = mViewPagerAdapter

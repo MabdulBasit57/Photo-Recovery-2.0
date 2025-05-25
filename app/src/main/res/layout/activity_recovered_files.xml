@@ -38,7 +38,7 @@
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_6sdp"
+        android:layout_marginHorizontal="@dimen/_8sdp"
         app:tabIndicatorHeight="0dp"
         app:tabTextColor="@color/grey_80"
         app:tabSelectedTextColor="@android:color/white"

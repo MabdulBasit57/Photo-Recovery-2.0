@@ -328,7 +328,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun gdprSetUp() {
-        val params =
+  /*      val params =
             ConsentRequestParameters.Builder() //                .setConsentDebugSettings(debugSettings)
                 .setTagForUnderAgeOfConsent(false)
                 .build()
@@ -362,7 +362,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         // the previous session can be used to request ads.
         if (consentInformation?.canRequestAds() == true) {
             initializeMobileAdsSdk()
-        }
+        }*/
     }
 
     private fun initializeMobileAdsSdk() {

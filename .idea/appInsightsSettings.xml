@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="fileminer.photorecovery.mobile.data.recover.diskdigger" />
-                  <option name="mobileSdkAppId" value="1:1029325641318:android:5a1151c78b00c910907fa7" />
-                  <option name="projectId" value="photo-recovery-2b7f6" />
-                  <option name="projectNumber" value="1029325641318" />
+                  <option name="appId" value="com.decentapps.super.photorecovery.datarecovery" />
+                  <option name="mobileSdkAppId" value="1:221799562535:android:937121f3f5c22969b7bd02" />
+                  <option name="projectId" value="photo-recovery-devbasit" />
+                  <option name="projectNumber" value="221799562535" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
