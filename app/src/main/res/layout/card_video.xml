@@ -11,8 +11,7 @@
     android:layout_marginBottom="2dp"
     android:background="@color/white"
     android:clickable="true"
-    android:focusable="true"
-    android:foreground="?attr/selectableItemBackground">
+    android:focusable="true">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/imageLayout"
@@ -61,8 +60,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textSize="16sp"/>
 
         <TextView
             android:id="@+id/tvSize"
@@ -89,8 +87,9 @@
 
     <androidx.appcompat.widget.AppCompatCheckBox
         android:id="@+id/cbSelected"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_alignParentEnd="true"
+        android:button="@drawable/checkbox_selector"
         android:layout_centerVertical="true" />
 </RelativeLayout>
