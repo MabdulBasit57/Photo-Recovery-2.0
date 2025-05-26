@@ -115,7 +115,7 @@
     <string name="restore_folder_path_audio">Recovered Audios</string>
     <string name="restore_folder_path_photo">Recovered Photos</string>
     <string name="restore_folder_path_video">Recovered Videos</string>
-    <string name="restore_now">Recover Now</string>
+    <string name="restore_now">Recover</string>
     <string name="restore_photo">Recover Deleted Files</string>
     <string name="restoring_number_format">Recovered ... %d files</string>
     <string name="restoring_number_format_audio">Processed ... %d files</string>

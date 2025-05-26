@@ -76,38 +76,21 @@
         tools:listitem="@layout/card_photo"
         android:scrollbarThumbVertical="@color/grey_5"
         android:scrollbars="vertical" />
-    <LinearLayout
-        android:id="@+id/SelectDIV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:paddingHorizontal="@dimen/_5sdp"
-        android:layout_marginEnd="@dimen/_5sdp"
-        android:background="@drawable/round_corner"
-        android:backgroundTint="@color/white"
-        android:layout_marginTop="@dimen/_2sdp"
-        android:orientation="horizontal">
-
-        <CheckBox
-            android:id="@+id/checkboxSelectAll"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:paddingLeft="5dp"
-            android:text="@string/selectAll" />
-    </LinearLayout>
     <RelativeLayout
         android:id="@+id/relativeLayout1"
         android:layout_width="match_parent"
+        android:layout_gravity="center"
         android:layout_height="60dp"
         android:paddingTop="6dp">
 
         <Button
             android:id="@+id/btnRestore"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:backgroundTint="@color/appcolor"
-            android:background="@drawable/round_corner"
+            android:background="@drawable/round_corner30"
+            android:paddingHorizontal="@dimen/_15sdp"
             android:clickable="true"
             android:textAllCaps="false"
             android:textSize="@dimen/_14ssp"
@@ -128,6 +111,25 @@
             android:visibility="gone"
             android:background="@color/colorPrimary"
             android:text="@string/delete_now" />
+        <LinearLayout
+            android:id="@+id/SelectDIV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:paddingHorizontal="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:background="@drawable/round_corner"
+            android:backgroundTint="@color/white"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/checkboxSelectAll"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:paddingLeft="5dp"
+                android:text="@string/selectAll" />
+        </LinearLayout>
     </RelativeLayout>
 
     <View

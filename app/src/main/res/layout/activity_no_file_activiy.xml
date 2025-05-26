@@ -11,9 +11,9 @@
         android:layout_height="wrap_content"
         layout="@layout/custom_toolbar"/>
     <ImageView
-        android:layout_width="300dp"
+        android:layout_width="250dp"
         android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="591:422"
+        app:layout_constraintDimensionRatio="265:177"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

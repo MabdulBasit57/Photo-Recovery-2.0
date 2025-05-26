@@ -42,9 +42,9 @@ class VideoActivity : AppCompatActivity() {
         binding?.apply {
             checkboxSelectAll?.setOnCheckedChangeListener { compoundButton: CompoundButton?, z: Boolean ->
                 if (!z) {
-                    adapter!!.setAllImagesUnseleted()
+                    adapter?.setAllImagesUnseleted()
                 } else {
-                    adapter!!.selectAll()
+                    adapter?.selectAll()
                 }
             }
             btnDelete?.setOnClickListener { view: View? ->
@@ -60,8 +60,8 @@ class VideoActivity : AppCompatActivity() {
             }
             btnRestore?.setOnClickListener { view: View? ->
                 val selectedItem =
-                    adapter!!.selectedItem
-                if (selectedItem.size == 0) {
+                    adapter?.selectedItem
+                if (selectedItem?.size == 0) {
                     Toast.makeText(
                         this@VideoActivity,
                         getString(R.string.can_not_process),
@@ -69,7 +69,9 @@ class VideoActivity : AppCompatActivity() {
                     ).show()
                     return@setOnClickListener
                 }
-                SResIT(selectedItem)
+                if (selectedItem != null) {
+                    SResIT(selectedItem)
+                }
             }
         }
 
