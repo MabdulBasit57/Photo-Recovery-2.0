@@ -6,10 +6,14 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.os.Handler
 import android.os.Looper
+import android.os.StatFs
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -17,6 +21,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.navigation.NavigationView
 import com.google.android.ump.ConsentForm.OnConsentFormDismissedListener
 import com.google.android.ump.ConsentInformation
@@ -37,7 +44,16 @@ import com.recover.photo.utils.AppUtils.privacypolicy
 import com.recover.photo.utils.AppUtils.rateApp
 import com.recover.photo.utils.AppUtils.shareApp
 import com.recover.photo.utils.Utils
+import com.recover.photo.utils.percentage
+import com.recover.photo.utils.storageValue
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.text.DecimalFormat
 import java.util.concurrent.atomic.AtomicBoolean
+import kotlin.math.log10
+import kotlin.math.pow
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
@@ -64,6 +80,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(binding.root)
         // Initialize views
 //        navigationDrawer()
+        getStorage()
         sharedPreferencesAudio = getSharedPreferences(prefAudio, MODE_PRIVATE)
         sharedPreferencesVideo = getSharedPreferences(prefVideo, MODE_PRIVATE)
         Utils.isAdAlreadyOpen = true
@@ -318,7 +335,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding.audio.setOnClickListener {
             checkButtonsPermissions(2)
         }
-        binding.recovered.setOnClickListener {
+        binding.settings.setOnClickListener {
             checkButtonsPermissions(RecoveredFilesActivity::class.java)
         }
         binding.customToolbar.backToolbar.setOnClickListener {
@@ -483,5 +500,109 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         var isOpen: Boolean = false
 
         private const val TAG = "interstitial add"
+    }
+    private fun updateStorageUI(freePercentage: Int, usedSpace: String, total: String) {
+        when {
+            freePercentage > 80 -> {  try {
+                Glide.with(this)
+                    .load(R.drawable.red_progress)
+                    .into(object : CustomTarget<Drawable>() {
+                        override fun onResourceReady(
+                            resource: Drawable,
+                            transition: Transition<in Drawable>?
+                        ) {
+                            binding.percentageBG.background = resource
+                        }
+                        override fun onLoadCleared(placeholder: Drawable?) {}
+                    })
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }}
+            freePercentage in 51..80 -> {
+                try {
+                    Glide.with(this)
+                        .load(R.drawable.orange_progress)
+                        .into(object : CustomTarget<Drawable>() {
+                            override fun onResourceReady(
+                                resource: Drawable,
+                                transition: Transition<in Drawable>?
+                            ) {
+                                binding.percentageBG.background = resource
+                            }
+                            override fun onLoadCleared(placeholder: Drawable?) {}
+                        })
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }}
+            freePercentage in 36..50 -> {
+                try {
+                    Glide.with(this)
+                        .load(R.drawable.blue_progress)
+                        .into(object : CustomTarget<Drawable>() {
+                            override fun onResourceReady(
+                                resource: Drawable,
+                                transition: Transition<in Drawable>?
+                            ) {
+                                binding.percentageBG.background = resource
+                            }
+                            override fun onLoadCleared(placeholder: Drawable?) {}
+                        })
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }}
+            else -> {
+                try {
+                    Glide.with(this)
+                        .load(R.drawable.green_progress)
+                        .into(object : CustomTarget<Drawable>() {
+                            override fun onResourceReady(
+                                resource: Drawable,
+                                transition: Transition<in Drawable>?
+                            ) {
+                                binding.percentageBG.background = resource
+                            }
+                            override fun onLoadCleared(placeholder: Drawable?) {}
+                        })
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }}
+        }
+        binding.percentagefree.text = "$freePercentage% Used"
+        binding.percentagefree.visibility = View.VISIBLE
+        binding.totalTitle.text = usedSpace+" of "+total+" Used"
+        storageValue =usedSpace+" of "+total+" Used"
+        percentage = "$freePercentage %"
+    }
+    private fun getStorage() {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val stat = StatFs(Environment.getExternalStorageDirectory().path)
+                val bytesAvailable = stat.blockSizeLong * stat.blockCountLong
+                val bytesFree = stat.blockSizeLong * stat.availableBlocksLong
+                val bytesUsed = bytesAvailable - bytesFree
+
+                val units = arrayOf("B", "KB", "MB", "GB", "TB")
+
+                val total = formatSize(bytesAvailable, units)
+                val available = formatSize(bytesFree, units)
+                val usedSpace = formatSize(bytesUsed, units)
+
+                val usedPercentage =
+                    (bytesUsed.toDouble() / bytesAvailable.toDouble() * 100).toInt()
+                val freePercentage = 100 - usedPercentage
+
+                withContext(Dispatchers.Main) {
+                    // Update UI based on storage usage
+                    updateStorageUI(usedPercentage, usedSpace, total)
+                }
+            } catch (e: Exception) {
+                Log.e("StorageError", "Error calculating storage: ${e.message}")
+            }
+        }
+    }
+
+    private fun formatSize(size: Long, units: Array<String>): String {
+        val digitGroups = (log10(size.toDouble()) / log10(1024.0)).toInt()
+        return DecimalFormat("#,##0.#").format(size / 1024.0.pow(digitGroups.toDouble())) + " " + units[digitGroups]
     }
 }

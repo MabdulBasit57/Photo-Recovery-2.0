@@ -19,16 +19,79 @@
         android:layout_height="wrap_content"
         layout="@layout/custom_toolbar"/>
 
-    <ImageView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/toplayout"
-        android:layout_width="0dp"
-        app:layout_constraintWidth_percent="0.8"
-        android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="396:302"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/customToolbar"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:background="@drawable/round_corner_stroke"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@drawable/main_bg"
-        app:layout_constraintTop_toBottomOf="@+id/customToolbar"/>
+        android:paddingVertical="@dimen/_20sdp"
+        android:paddingHorizontal="@dimen/_12sdp"
+        android:visibility="visible"
+        android:backgroundTint="#F5F5F5"
+        android:layout_marginTop="@dimen/_20sdp"
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/storageIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/storage_icon"
+            android:layout_marginBottom="@dimen/_7sdp"
+            app:layout_constraintBottom_toTopOf="@+id/percentageBG"/>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            app:layout_constraintTop_toTopOf="@+id/storageIcon"
+            android:text="@string/storage_details"
+            android:layout_marginStart="@dimen/_10sdp"
+            app:layout_constraintStart_toEndOf="@+id/storageIcon"
+            app:layout_constraintBottom_toBottomOf="@+id/storageIcon"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14ssp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/totalTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            app:layout_constraintWidth_percent="0.35"
+            android:layout_centerHorizontal="true"
+            android:text="-Gb of -Gb"
+            app:layout_constraintBottom_toTopOf="@+id/percentageBG"
+            app:layout_constraintEnd_toEndOf="@+id/percentageBG"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:textColor="@color/grey_80"
+            android:textSize="@dimen/_11ssp"/>
+        <ImageView
+            android:id="@+id/percentageBG"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintWidth_percent="0.8"
+            app:layout_constraintStart_toStartOf="@+id/storageIcon"
+            android:background="@drawable/blue_progress"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+        <TextView
+            android:id="@+id/percentagefree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="--% Used"
+            app:layout_constraintStart_toEndOf="@+id/percentageBG"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/percentageBG"
+            android:visibility="visible"
+            android:textSize="11sp"
+            android:textColor="@color/black" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
         android:id="@+id/recycle"
@@ -39,49 +102,54 @@
         app:layout_constraintTop_toBottomOf="@+id/toplayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
         android:layout_marginTop="@dimen/_15sdp"
         android:background="@drawable/recycle_bin_svg"/>
 
     <ImageView
         android:id="@+id/images"
-        android:layout_width="@dimen/_65sdp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="83:91"
+        app:layout_constraintWidth_percent="0.45"
+        app:layout_constraintDimensionRatio="186:68"
         app:layout_constraintTop_toBottomOf="@+id/recycle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/video"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:background="@drawable/photo_svg_main"/>
+        android:layout_marginTop="@dimen/_35sdp"
+        android:background="@drawable/photos_svg"/>
     <ImageView
         android:id="@+id/video"
-        android:layout_width="@dimen/_65sdp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="83:91"
-        app:layout_constraintTop_toBottomOf="@+id/recycle"
+        app:layout_constraintWidth_percent="0.45"
+        app:layout_constraintDimensionRatio="186:68"
+        app:layout_constraintTop_toTopOf="@+id/images"
+        app:layout_constraintBottom_toBottomOf="@+id/images"
         app:layout_constraintStart_toEndOf="@+id/images"
-        app:layout_constraintEnd_toStartOf="@+id/audio"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:background="@drawable/video_main_svg"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/videos_svg"/>
     <ImageView
         android:id="@+id/audio"
-        android:layout_width="@dimen/_65sdp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="83:91"
-        app:layout_constraintTop_toBottomOf="@+id/recycle"
-        app:layout_constraintStart_toEndOf="@+id/video"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:background="@drawable/audio_main_svg"/>
-    <ImageView
-        android:id="@+id/recovered"
-        android:layout_width="@dimen/_65sdp"
-        android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="83:91"
+        app:layout_constraintWidth_percent="0.45"
+        app:layout_constraintDimensionRatio="186:68"
         app:layout_constraintTop_toBottomOf="@+id/images"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/settings"
         android:layout_marginTop="@dimen/_20sdp"
-        android:background="@drawable/setting_main_svg"/>
+        android:background="@drawable/audios_svg"/>
+    <ImageView
+        android:id="@+id/settings"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.45"
+        app:layout_constraintDimensionRatio="186:68"
+        app:layout_constraintTop_toTopOf="@+id/audio"
+        app:layout_constraintBottom_toBottomOf="@+id/audio"
+        app:layout_constraintStart_toEndOf="@+id/audio"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/settings_svg"/>
 
     <LinearLayout
         android:id="@+id/lnMain"

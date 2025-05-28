@@ -9,118 +9,95 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/custom_toolbar"/>
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@+id/toplayout"
-        app:layout_constraintEnd_toEndOf="@+id/toplayout"
-        app:layout_constraintTop_toBottomOf="@+id/customToolbar"
-        android:layout_marginTop="@dimen/_50sdp"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@+id/toplayout"
-        android:background="@drawable/shadow_home"/>
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="visible"
-        app:layout_constraintTop_toTopOf="@+id/toplayout"
-        app:layout_constraintBottom_toBottomOf="@+id/toplayout"
-        app:layout_constraintStart_toStartOf="@+id/toplayout"
-        app:layout_constraintEnd_toEndOf="@+id/toplayout"
-        android:background="@drawable/mask_main"/>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/toplayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/customToolbar"
         android:layout_marginHorizontal="@dimen/_10sdp"
-        android:background="@drawable/main_tab_bg"
+        android:background="@drawable/round_corner_stroke"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="@dimen/_10sdp"
+        android:paddingVertical="@dimen/_20sdp"
+        android:paddingHorizontal="@dimen/_12sdp"
         android:visibility="visible"
-        android:backgroundTint="#00D1B4"
-        android:layout_marginTop="@dimen/_10sdp"
-        app:layout_constraintHeight_percent="0.25"
+        android:backgroundTint="#F5F5F5"
+        android:layout_marginTop="@dimen/_20sdp"
+        app:layout_constraintHeight_percent="0.2"
         app:layout_constraintStart_toStartOf="parent">
 
+        <ImageView
+            android:id="@+id/storageIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/storage_icon"
+            android:layout_marginBottom="@dimen/_7sdp"
+            app:layout_constraintBottom_toTopOf="@+id/percentageBG"/>
 
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintTop_toTopOf="@+id/storageIcon"
             android:text="@string/storage_details"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/percentageBG"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_16ssp"
+            android:layout_marginStart="@dimen/_10sdp"
+            app:layout_constraintStart_toEndOf="@+id/storageIcon"
+            app:layout_constraintBottom_toBottomOf="@+id/storageIcon"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14ssp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/totalTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            app:layout_constraintWidth_percent="0.4"
+            android:gravity="end"
+            app:layout_constraintWidth_percent="0.35"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:text="Total Memory"
-            app:layout_constraintTop_toBottomOf="@+id/title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/percentageBG"
-            android:textColor="@color/grey_5"
+            android:text="-Gb of -Gb"
+            app:layout_constraintBottom_toTopOf="@+id/percentageBG"
+            app:layout_constraintEnd_toEndOf="@+id/percentageBG"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:textColor="@color/grey_80"
             android:textSize="@dimen/_11ssp"/>
-        <RelativeLayout
+        <ImageView
             android:id="@+id/percentageBG"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginStart="@dimen/_10sdp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@drawable/storage_red"
-            app:layout_constraintBottom_toBottomOf="parent">
-            <TextView
-                android:id="@+id/percentagefree"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="80%\nUsed"
-                android:textStyle="bold"
-                android:layout_centerInParent="true"
-                android:visibility="visible"
-                android:textSize="16sp"
-                android:textColor="@color/white" />
-        </RelativeLayout>
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintWidth_percent="0.8"
+            app:layout_constraintStart_toStartOf="@+id/storageIcon"
+            android:background="@drawable/blue_progress"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+        <TextView
+            android:id="@+id/percentagefree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="--% Used"
+            app:layout_constraintStart_toEndOf="@+id/percentageBG"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/percentageBG"
+            android:visibility="visible"
+            android:textSize="11sp"
+            android:textColor="@color/black" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <ImageView
-        android:id="@+id/topimg"
-        android:layout_width="0dp"
-        app:layout_constraintWidth_percent="0.7"
-        android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="@dimen/_15sdp"
-        android:visibility="invisible"
-        app:layout_constraintTop_toBottomOf="@+id/customToolbar"
-        app:layout_constraintDimensionRatio="1:1"
-        android:background="@drawable/home_bg"/>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/recoverDeletedData"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintWidth_percent="0.82"
         app:layout_constraintStart_toStartOf="@+id/recoveredData"
-        app:layout_constraintTop_toBottomOf="@+id/topimg"
+        app:layout_constraintBottom_toTopOf="@+id/recoveredData"
         android:background="@drawable/round_corner"
+        android:layout_marginBottom="@dimen/_15sdp"
         android:backgroundTint="#00D1B4"
         android:paddingVertical="@dimen/_8sdp">
         <TextView
             android:id="@+id/t"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/_15ssp"
+            android:textSize="@dimen/_14ssp"
             android:textStyle="bold"
             android:fontFamily="sans-serif"
             android:textColor="@color/white"
@@ -133,7 +110,7 @@
             android:id="@+id/detail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
             android:textColor="#ECECEC"
             android:gravity="center"
             android:fontFamily="sans-serif"            android:text="Recover all of your deleted Data in one click"
@@ -145,7 +122,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     <ImageView
-        android:layout_width="50dp"
+        android:layout_width="45dp"
         android:layout_height="0dp"
         app:layout_constraintDimensionRatio="296:344"
         app:layout_constraintStart_toEndOf="@+id/recoverDeletedData"
@@ -162,13 +139,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:backgroundTint="#E8E8E8"
         android:background="@drawable/round_corner"
-        app:layout_constraintTop_toBottomOf="@+id/recoverDeletedData"
+        app:layout_constraintBottom_toTopOf="@+id/bottomview"
         android:layout_marginTop="@dimen/_15sdp">
         <TextView
             android:id="@+id/v"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/_15ssp"
+            android:textSize="@dimen/_14ssp"
             android:fontFamily="sans-serif"
             android:layout_marginStart="@dimen/_20sdp"
             android:textStyle="bold"
@@ -190,8 +167,8 @@
             app:layout_constraintTop_toBottomOf="@+id/v"/>
         <ImageView
             android:id="@+id/rec"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             app:layout_constraintStart_toEndOf="@+id/v"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -199,6 +176,15 @@
             android:background="@drawable/recovered_home_svg"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/bottomview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.35"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

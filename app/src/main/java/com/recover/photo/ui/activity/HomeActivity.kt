@@ -69,7 +69,7 @@ class HomeActivity :AppCompatActivity(){
         when {
             freePercentage > 80 -> {  try {
                 Glide.with(this)
-                    .load(R.drawable.storage_red)
+                    .load(R.drawable.red_progress)
                     .into(object : CustomTarget<Drawable>() {
                         override fun onResourceReady(
                             resource: Drawable,
@@ -85,7 +85,7 @@ class HomeActivity :AppCompatActivity(){
             freePercentage in 51..80 -> {
                 try {
                     Glide.with(this)
-                        .load(R.drawable.storage_capacity)
+                        .load(R.drawable.orange_progress)
                         .into(object : CustomTarget<Drawable>() {
                             override fun onResourceReady(
                                 resource: Drawable,
@@ -101,7 +101,7 @@ class HomeActivity :AppCompatActivity(){
             freePercentage in 36..50 -> {
                 try {
                     Glide.with(this)
-                        .load(R.drawable.storage_green)
+                        .load(R.drawable.blue_progress)
                         .into(object : CustomTarget<Drawable>() {
                             override fun onResourceReady(
                                 resource: Drawable,
@@ -117,7 +117,7 @@ class HomeActivity :AppCompatActivity(){
             else -> {
                 try {
                     Glide.with(this)
-                        .load(R.drawable.storage_green)
+                        .load(R.drawable.green_progress)
                         .into(object : CustomTarget<Drawable>() {
                             override fun onResourceReady(
                                 resource: Drawable,
@@ -131,7 +131,7 @@ class HomeActivity :AppCompatActivity(){
                     e.printStackTrace()
                 }}
         }
-        binding.percentagefree.text = "$freePercentage%\nUsed"
+        binding.percentagefree.text = "$freePercentage% Used"
         binding.percentagefree.visibility = View.VISIBLE
         binding.totalTitle.text = usedSpace+" of "+total+" Used"
         storageValue =usedSpace+" of "+total+" Used"
