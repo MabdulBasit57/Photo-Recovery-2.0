@@ -2,10 +2,13 @@ package com.recover.photo.ui.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
@@ -15,6 +18,9 @@ import android.os.Looper
 import android.os.StatFs
 import android.util.Log
 import android.view.View
+import android.view.Window
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -328,12 +334,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding.recoveredImgs.setOnClickListener(this)
         binding.recoveredVideos.setOnClickListener(this)
         binding.recoveredAudios.setOnClickListener(this)
-        binding.images.setOnClickListener { checkButtonsPermissions(0) }
+        binding.images.setOnClickListener {
+            showRecoverDialog("Do You want to recover your photos?",0,"photo")
+//            checkButtonsPermissions(0)
+        }
         binding.video.setOnClickListener {
-            checkButtonsPermissions(1)
+            showRecoverDialog("Do You want to recover your videos?",1,"video")
+//            checkButtonsPermissions(1)
         }
         binding.audio.setOnClickListener {
-            checkButtonsPermissions(2)
+            showRecoverDialog("Do You want to recover your audios?",2,"audio")
+//            checkButtonsPermissions(2)
         }
         binding.settings.setOnClickListener {
             checkButtonsPermissions(RecoveredFilesActivity::class.java)
@@ -380,6 +391,82 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         if (consentInformation?.canRequestAds() == true) {
             initializeMobileAdsSdk()
         }*/
+    }
+    fun showRecoverDialog(msg:String,pos: Int,title:String) {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.confirm_dialog)
+        dialog.setCancelable(true)
+        val btnYes = dialog.findViewById<TextView>(R.id.btnYes)
+        val icon = dialog.findViewById<ImageView>(R.id.imgPhoto)
+        when(title){
+            "photo"->{
+                Glide.with(this)
+                    .load(R.drawable.photo_svg_main)
+                    .into(object : CustomTarget<Drawable>() {
+                        override fun onResourceReady(
+                            resource: Drawable,
+                            transition: Transition<in Drawable>?
+                        ) {
+                            icon.background = resource
+                        }
+                        override fun onLoadCleared(placeholder: Drawable?) {}
+                    })
+            }
+            "video"->{
+                Glide.with(this)
+                    .load(R.drawable.video_main_svg)
+                    .into(object : CustomTarget<Drawable>() {
+                        override fun onResourceReady(
+                            resource: Drawable,
+                            transition: Transition<in Drawable>?
+                        ) {
+                            icon.background = resource
+                        }
+                        override fun onLoadCleared(placeholder: Drawable?) {}
+                    })
+            }
+            "audio"->{
+                Glide.with(this)
+                    .load(R.drawable.audio_main_svg)
+                    .into(object : CustomTarget<Drawable>() {
+                        override fun onResourceReady(
+                            resource: Drawable,
+                            transition: Transition<in Drawable>?
+                        ) {
+                            icon.background = resource
+                        }
+                        override fun onLoadCleared(placeholder: Drawable?) {}
+                    })
+            }
+            else ->{
+                Glide.with(this)
+                    .load(R.drawable.photo_svg_main)
+                    .into(object : CustomTarget<Drawable>() {
+                        override fun onResourceReady(
+                            resource: Drawable,
+                            transition: Transition<in Drawable>?
+                        ) {
+                            icon.background = resource
+                        }
+                        override fun onLoadCleared(placeholder: Drawable?) {}
+                    })
+            }
+        }
+
+        val message = dialog.findViewById<TextView>(R.id.tvMessage)
+        message.text=msg
+        val btnNo = dialog.findViewById<TextView>(R.id.btnNo)
+
+        btnYes.setOnClickListener {
+            checkButtonsPermissions(pos)
+            dialog.dismiss()
+        }
+        btnNo.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
     }
 
     private fun initializeMobileAdsSdk() {
@@ -569,8 +656,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
         binding.percentagefree.text = "$freePercentage% Used"
         binding.percentagefree.visibility = View.VISIBLE
-        binding.totalTitle.text = usedSpace+" of "+total+" Used"
-        storageValue =usedSpace+" of "+total+" Used"
+        binding.totalTitle.text = usedSpace+" of "+total
+        storageValue =usedSpace+" of "+total
         percentage = "$freePercentage %"
     }
     private fun getStorage() {

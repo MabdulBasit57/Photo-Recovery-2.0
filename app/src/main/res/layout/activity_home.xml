@@ -53,14 +53,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="end"
-            app:layout_constraintWidth_percent="0.35"
+            app:layout_constraintWidth_percent="0.43"
             android:layout_centerHorizontal="true"
             android:text="-Gb of -Gb"
             app:layout_constraintBottom_toTopOf="@+id/percentageBG"
             app:layout_constraintEnd_toEndOf="@+id/percentageBG"
             android:layout_marginBottom="@dimen/_5sdp"
             android:textColor="@color/grey_80"
-            android:textSize="@dimen/_11ssp"/>
+            android:textSize="@dimen/_9ssp"/>
         <ImageView
             android:id="@+id/percentageBG"
             android:layout_width="0dp"
@@ -71,9 +71,10 @@
             app:layout_constraintBottom_toBottomOf="parent"/>
         <TextView
             android:id="@+id/percentagefree"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="--% Used"
+            android:gravity="end"
             app:layout_constraintStart_toEndOf="@+id/percentageBG"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="@+id/percentageBG"
@@ -154,7 +155,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/rec"
             app:layout_constraintTop_toTopOf="parent"
-            android:paddingVertical="@dimen/_4sdp"
+            android:paddingVertical="@dimen/_3sdp"
             app:layout_constraintBottom_toBottomOf="parent"/>
         <TextView
             android:id="@+id/details"
@@ -181,7 +182,7 @@
         android:id="@+id/bottomview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.35"
+        app:layout_constraintHeight_percent="0.4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>

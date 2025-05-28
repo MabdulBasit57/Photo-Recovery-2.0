@@ -133,8 +133,8 @@ class HomeActivity :AppCompatActivity(){
         }
         binding.percentagefree.text = "$freePercentage% Used"
         binding.percentagefree.visibility = View.VISIBLE
-        binding.totalTitle.text = usedSpace+" of "+total+" Used"
-        storageValue =usedSpace+" of "+total+" Used"
+        binding.totalTitle.text = usedSpace+" of "+total
+        storageValue =usedSpace+" of "+total
         percentage = "$freePercentage %"
     }
     private fun getStorage() {
