@@ -2,6 +2,8 @@ package com.recover.photo.ui.activity
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.recover.photo.R
 
@@ -28,8 +30,12 @@ class AboutActivity : AppCompatActivity() {
      * Set up the [android.app.ActionBar], if the API is available.
      */
     private fun setupActionBar() {
-        val actionBar = supportActionBar
-        actionBar?.setDisplayHomeAsUpEnabled(true)
+        val titleToolbar = findViewById<TextView>(R.id.titleToolbar)
+        val backToolbar = findViewById<ImageView>(R.id.backToolbar)
+        backToolbar.setOnClickListener {
+            onBackPressed()
+        }
+        titleToolbar.text="Setting"
     }
 
 

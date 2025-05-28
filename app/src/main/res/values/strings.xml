@@ -22,12 +22,12 @@
 <!--        <string name="home_banner_id" translatable="false">ca-app-pub-7853241901786470/2451755245</string>-->
 <!--    <string name="admob_open_ad">ca-app-pub-7853241901786470/7573958096</string>-->
 
-    <string name="appDescription">Photo recovery allows you to recover deleted photos on your phone</string>
-    <string name="autor">Basit</string>
-    <string name="descripton">Photo recovery allows you to recover deleted photos on your phone</string>
+    <string name="appDescription">Data recovery allows you to recover deleted data on your phone</string>
+    <string name="autor">M.A.B</string>
+    <string name="descripton">Data recovery allows you to recover deleted data on your phone</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_subtitle">basitdevtechlyfe@gmail.com</string>
+    <string name="nav_header_subtitle">techie_@tech.com</string>
     <string name="action_restore">Restore</string>
     <string name="action_delete">Delete</string>
     <string name="Privacy_policy">Privacy Policy</string>
@@ -38,13 +38,13 @@
     <string name="home">Home</string>
     <string name="scan_photos">Scan Photos</string>
     <string name="TODO">TODO</string>
-    <string name="photos_recovery">Photos Recovery</string>
+    <string name="photos_recovery">Data Recovery</string>
     <string name="restore_deleted_photos">restore deleted photos</string>
     <string name="TODo">TODO</string>
     <string name="version">Version</string>
     <string name="_1_0_0">1.0.1</string>
     <string name="ToDo">TODO</string>
-    <string name="descritoion">Descritoion</string>
+    <string name="descritoion">Description</string>
     <string name="author">Author</string>
     <string name="Todo">TODO</string>
     <string name="Restored_photos">Restored Photos</string>
@@ -81,7 +81,7 @@
     <string name="delete_now">Delete</string>
     <string name="delete_title">Permanently delete?</string>
     <string name="deleted_number_format">Deleted ... %d files</string>
-    <string name="email_feedback">basitdevtechlyfe@gmail.com</string>
+    <string name="email_feedback">techie_@tech.com</string>
     <string name="exit_app">Exit</string>
     <string name="faild_purchase">Error</string>
     <string name="faild_purchse_bdy">There is a problem with the payment, it is not completed, contact us for help</string>

@@ -28,29 +28,33 @@ class RecoveredFilesActivity : AppCompatActivity() {
         try {
 
 // Set custom view for each tab
+            tabLayout.tabMode = TabLayout.MODE_SCROLLABLE
+            tabLayout.tabGravity = TabLayout.GRAVITY_CENTER
             tabLayout.post {
-                for (i in 0 until tabLayout.tabCount) {
-                    val tabView = (tabLayout.getChildAt(0) as ViewGroup).getChildAt(i) as ViewGroup
+                val tabStrip = tabLayout.getChildAt(0) as ViewGroup
+                for (i in 0 until tabStrip.childCount) {
+                    val tabView = tabStrip.getChildAt(i) as ViewGroup
 
-                    // Margin, padding, minWidth
-                    val layoutParams = tabView.layoutParams as ViewGroup.MarginLayoutParams
-                    layoutParams.setMargins(8, 4, 8, 4)
-                    tabView.layoutParams = layoutParams
-                    tabView.setPadding(0, 5, 0, 5)
-                    tabView.minimumWidth = 0
+                    // Set margins
+                    val lp = tabView.layoutParams as ViewGroup.MarginLayoutParams
+                    lp.setMargins(8, 8, 8, 8)
+                    tabView.layoutParams = lp
 
-                    // Access TextView inside tab
+                    // Set padding and min width
+                    tabView.setPadding(45, 4, 45, 4)
+                    tabView.minimumWidth = 70 // override default large minWidth
+
+                    // Change the text appearance
                     for (j in 0 until tabView.childCount) {
                         val tabChild = tabView.getChildAt(j)
                         if (tabChild is TextView) {
                             tabChild.isAllCaps = false
-                            tabChild.textSize = 12f // smaller text size
+                            tabChild.textSize = 13f
                         }
                     }
-
-                    tabView.requestLayout()
                 }
             }
+
 
 
         } catch (e: Exception) {

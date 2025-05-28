@@ -63,11 +63,11 @@ class VideoAdapter(var context: Context, arrayList: ArrayList<VideoModel>?) :
             val context2 = this.context
             Toast.makeText(context2, "Exception: " + e.message, Toast.LENGTH_SHORT).show()
         }
-        myViewHolder.album_card.setOnClickListener {
+       /* myViewHolder.album_card.setOnClickListener {
             val intent = Intent(this@VideoAdapter.context, FileInfoActivity::class.java)
             intent.putExtra("ojectVideo", videoModel)
             context.startActivity(intent)
-        }
+        }*/
         myViewHolder.cbSelected.setOnClickListener {
             if (myViewHolder.cbSelected.isChecked) {
                 videoModel.isCheck = true

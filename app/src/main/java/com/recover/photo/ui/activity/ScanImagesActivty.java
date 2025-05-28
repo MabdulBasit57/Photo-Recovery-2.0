@@ -43,6 +43,7 @@ public class ScanImagesActivty extends AppCompatActivity {
     public static ArrayList<AlbumAudio> mAlbumAudio = new ArrayList<>();
     public static ArrayList<AlbumPhoto> mAlbumPhoto = new ArrayList<>();
     public static ArrayList<AlbumVideo> mAlbumVideo = new ArrayList<>();
+    public static int itemSize = 0;
     int position = -1;
     ScanAsyncTask mScanAsyncTask;
 
@@ -162,6 +163,7 @@ public class ScanImagesActivty extends AppCompatActivity {
         public void onProgressUpdate(Integer... numArr) {
             super.onProgressUpdate(numArr);
             tvNumber.setText("Scanned Files\n" + numArr[0]);
+            itemSize=numArr[0];
         }
 
         public Void doInBackground(Void... voidArr) {

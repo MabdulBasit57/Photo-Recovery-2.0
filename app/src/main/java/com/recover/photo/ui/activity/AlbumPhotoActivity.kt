@@ -53,6 +53,10 @@ class AlbumPhotoActivity : AppCompatActivity(), AlbumsPhotoAdapter.OnClickItemLi
     fun intData() {
         this.adapter = AlbumsPhotoAdapter(this, ScanImagesActivty.mAlbumPhoto, this)
         recyclerView?.adapter = this.adapter
+        val items = findViewById<TextView>(R.id.totalItems)
+        val folders = findViewById<TextView>(R.id.totalFolders)
+        items.text="${ScanImagesActivty.itemSize}\nItems"
+        folders.text="${ScanImagesActivty.mAlbumPhoto.size.toString()}\nFolders"
     }
 
     inner class GridSpacingItemDecoration(

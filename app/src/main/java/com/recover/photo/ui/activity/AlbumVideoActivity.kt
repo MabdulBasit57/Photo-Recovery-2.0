@@ -53,6 +53,10 @@ class AlbumVideoActivity : AppCompatActivity(), AlbumsVideoAdapter.OnClickItemLi
     fun intData() {
         this.adapter = AlbumsVideoAdapter(this, ScanImagesActivty.mAlbumVideo, this)
         recyclerView?.adapter = this.adapter
+        val items = findViewById<TextView>(R.id.totalItems)
+        val folders = findViewById<TextView>(R.id.totalFolders)
+        items.text="${ScanImagesActivty.itemSize}\nItems"
+        folders.text="${ScanImagesActivty.mAlbumVideo.size.toString()}\nFolders"
     }
 
     inner class GridSpacingItemDecoration(

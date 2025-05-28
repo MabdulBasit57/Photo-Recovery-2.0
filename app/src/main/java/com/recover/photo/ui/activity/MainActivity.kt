@@ -347,7 +347,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 //            checkButtonsPermissions(2)
         }
         binding.settings.setOnClickListener {
-            checkButtonsPermissions(RecoveredFilesActivity::class.java)
+            checkButtonsPermissions(AboutActivity::class.java)
         }
         binding.customToolbar.backToolbar.setOnClickListener {
             onBackPressed()

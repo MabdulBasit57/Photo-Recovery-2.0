@@ -12,12 +12,12 @@
         <item name="iconTint">@color/black</item>
     </style>
     <style name="MyTabTextAppearance" parent="TextAppearance.Design.Tab">
-        <item name="android:textSize">15sp</item> <!-- Text size -->
-        <item name="android:textColor">@color/appcolor</item> <!-- Text color -->
-<!--        <item name="android:textStyle">bold</item> &lt;!&ndash; Text style (bold, italic, etc.) &ndash;&gt;-->
-        <item name="android:fontFamily">sans-serif</item> <!-- Font family -->
-        <item name="android:textAllCaps">true</item> <!-- Make text uppercase -->
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">sans-serif</item>
     </style>
+
     <style name="AppThemeNoActionBar" parent="Theme.Design.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>

@@ -1,8 +1,11 @@
 package com.recover.photo.ui.activity
 
 import android.Manifest
+import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
@@ -12,6 +15,9 @@ import android.os.Looper
 import android.os.StatFs
 import android.util.Log
 import android.view.View
+import android.view.Window
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -54,6 +60,42 @@ class HomeActivity :AppCompatActivity(){
         // Initialize views
     }
 
+    override fun onBackPressed() {
+        showRecoverDialog("Do you want to close the app?")
+//        super.onBackPressed()
+    }
+    fun showRecoverDialog(msg:String) {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.exit_dialog)
+        dialog.setCancelable(true)
+        val btnYes = dialog.findViewById<TextView>(R.id.btnYes)
+        val icon = dialog.findViewById<ImageView>(R.id.imgPhoto)
+        Glide.with(this)
+            .load(R.drawable.exit_svg)
+            .into(object : CustomTarget<Drawable>() {
+                override fun onResourceReady(
+                    resource: Drawable,
+                    transition: Transition<in Drawable>?
+                ) {
+                    icon.background = resource
+                }
+                override fun onLoadCleared(placeholder: Drawable?) {}
+            })
+        val message = dialog.findViewById<TextView>(R.id.tvMessage)
+        message.text=msg
+        val btnNo = dialog.findViewById<TextView>(R.id.btnNo)
+
+        btnYes.setOnClickListener {
+            finish()
+            dialog.dismiss()
+        }
+        btnNo.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
+    }
     private fun clickListener() {
         binding?.apply {
             recoverDeletedData?.setOnClickListener {

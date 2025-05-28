@@ -42,14 +42,6 @@ class AlbumAudioActivity : AppCompatActivity(), AlbumsAudioAdapter.OnClickItemLi
     }
 
     fun intView() {
-        title = getString(R.string.audio_recovery)
-        //        setSupportActionBar(this.toolbar);
-        supportActionBar?.apply {
-            setBackgroundDrawable(ColorDrawable(Color.WHITE))
-            titleColor=(Color.BLACK)
-            setDisplayHomeAsUpEnabled(true)
-            setDisplayShowHomeEnabled(true)
-        }
         this.recyclerView = findViewById<View>(R.id.gv_folder) as RecyclerView
         recyclerView?.itemAnimator = DefaultItemAnimator()
     }
@@ -57,6 +49,10 @@ class AlbumAudioActivity : AppCompatActivity(), AlbumsAudioAdapter.OnClickItemLi
     fun intData() {
         this.adapter = AlbumsAudioAdapter(this, ScanImagesActivty.mAlbumAudio, this)
         recyclerView?.adapter = this.adapter
+        val items = findViewById<TextView>(R.id.totalItems)
+        val folders = findViewById<TextView>(R.id.totalFolders)
+        items.text="${ScanImagesActivty.itemSize}\nItems"
+        folders.text="${ScanImagesActivty.mAlbumAudio.size.toString()}\nFolders"
     }
 
     inner class GridSpacingItemDecoration(
