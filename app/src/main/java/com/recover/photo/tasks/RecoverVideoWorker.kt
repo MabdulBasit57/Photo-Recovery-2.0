@@ -5,10 +5,12 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ServiceInfo
 import android.net.Uri
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.work.CoroutineWorker
 import androidx.work.ForegroundInfo
 import androidx.work.WorkManager
@@ -112,11 +114,11 @@ class RecoverVideoWorker(
             intent2.setData(Uri.fromFile(file4))
             context.sendBroadcast(intent2)
             MediaScanner(context, file4)
-            try {
+           /* try {
                 setForeground(createForegroundInfo(i3 + 1))
             } catch (e: Exception) {
                e.printStackTrace()
-            }
+            }*/
             delay(1000L)
         }
        /* for ((index, video) in videoList.withIndex()) {
@@ -159,7 +161,7 @@ class RecoverVideoWorker(
         val intent = Intent("recovery_completed")
         intent.putExtra("value", videoList.size)
         intent.putExtra("type", if (delete) 2 else 1)
-        context.sendBroadcast(intent)
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
 
         return Result.success()
     }
@@ -198,7 +200,7 @@ class RecoverVideoWorker(
         val notificationId = 1
         val context = applicationContext
 
-        // ✅ Create Notification Channel (for API 26+)
+        // ✅ Create Notification Channel (API 26+)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channelName = "Recovery Worker Channel"
             val channel = NotificationChannel(
@@ -215,38 +217,41 @@ class RecoverVideoWorker(
         // ✅ Cancel intent for the worker
         val cancelIntent = WorkManager.getInstance(context).createCancelPendingIntent(id)
 
-        // ✅ Build the notification
+        // ✅ Build notification
         val notification = NotificationCompat.Builder(context, channelId)
             .setContentTitle("Recovering Data")
             .setContentText("Recovering $progress item(s)")
-            .setSmallIcon(R.drawable.appicon) // Use a valid icon here
-            .addAction(android.R.drawable.ic_delete, "Cancel", cancelIntent) // 👈 Cancel Action
-            .setPriority(NotificationCompat.PRIORITY_MAX)      // request banner
-            .setDefaults(NotificationCompat.DEFAULT_ALL)        // sound + vibration
-            .setCategory(NotificationCompat.CATEGORY_REMINDER)
+            .setSmallIcon(R.drawable.appicon) // Make sure this exists
+            .addAction(android.R.drawable.ic_delete, "Cancel", cancelIntent)
+            .setPriority(NotificationCompat.PRIORITY_MAX)
+            .setDefaults(NotificationCompat.DEFAULT_ALL)
+            .setCategory(NotificationCompat.CATEGORY_PROGRESS)
+            .setOngoing(true)
             .setContentIntent(makePendingIntent(context))
             .build()
 
-        return ForegroundInfo(notificationId, notification)
+        // ✅ ForegroundInfo with proper type (Android 14+ requires this)
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            ForegroundInfo(notificationId, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC)
+        } else {
+            ForegroundInfo(notificationId, notification)
+        }
     }
 
     private fun makePendingIntent(ctx: Context): PendingIntent {
         val splashIntent = Intent(ctx, RecoveredFilesActivity::class.java).apply {
-            // kill any running task then start Splash as the root activity
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or
-                    Intent.FLAG_ACTIVITY_CLEAR_TASK
-
-            // Optional: mark that we came from the reminder notification
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             action = "com.recover.photo.ACTION_REBOOT_FROM_NOTIF"
-            putExtra("internalnotification","internalnotification")
+            putExtra("internalnotification", "internalnotification")
         }
 
         val pendingFlags = PendingIntent.FLAG_UPDATE_CURRENT or
-                PendingIntent.FLAG_IMMUTABLE    or
-                PendingIntent.FLAG_ONE_SHOT      // ignore double‑taps
+                PendingIntent.FLAG_IMMUTABLE or
+                PendingIntent.FLAG_ONE_SHOT
 
         return PendingIntent.getActivity(ctx, 0, splashIntent, pendingFlags)
     }
+
 
 
 }

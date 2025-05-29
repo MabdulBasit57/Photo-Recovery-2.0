@@ -17,6 +17,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
@@ -39,7 +40,6 @@ class VideoActivity : AppCompatActivity() {
     public override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)
         setContentView(binding.root)
-        registerReceiver(recoveryCompleteReceiver, IntentFilter("recovery_completed"))
         intData()
         binding.customToolbar.backToolbar.setOnClickListener {
             onBackPressed()
@@ -214,7 +214,17 @@ class VideoActivity : AppCompatActivity() {
             startActivity(goIntent)
         }
     }
+    override fun onResume() {
+        super.onResume()
+        LocalBroadcastManager.getInstance(this)
+            .registerReceiver(recoveryCompleteReceiver, IntentFilter("recovery_completed"))
+    }
 
+    override fun onPause() {
+        super.onPause()
+        LocalBroadcastManager.getInstance(this)
+            .unregisterReceiver(recoveryCompleteReceiver)
+    }
     fun startRecovery(
         context: Context,
         videoList: ArrayList<VideoModel>,
@@ -276,6 +286,7 @@ class VideoActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        unregisterReceiver(recoveryCompleteReceiver)
+        LocalBroadcastManager.getInstance(this)
+            .unregisterReceiver(recoveryCompleteReceiver)
     }
 }
