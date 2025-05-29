@@ -1,7 +1,13 @@
 package com.recover.photo.ui.activity
 
+import android.Manifest
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.IntentFilter
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -9,11 +15,19 @@ import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.workDataOf
 import com.recover.photo.R
 import com.recover.photo.adapter.VideoAdapter
 import com.recover.photo.databinding.ActivityPhotosBinding
 import com.recover.photo.pj.VideoModel
 import com.recover.photo.tasks.RecoverVideoAsyncTask
+import com.recover.photo.tasks.RecoverVideoWorker
+import com.recover.photo.utils.RecoverUtils
+import java.io.File
 
 class VideoActivity : AppCompatActivity() {
     private val binding by lazy { ActivityPhotosBinding.inflate(layoutInflater) }
@@ -25,6 +39,7 @@ class VideoActivity : AppCompatActivity() {
     public override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)
         setContentView(binding.root)
+        registerReceiver(recoveryCompleteReceiver, IntentFilter("recovery_completed"))
         intData()
         binding.customToolbar.backToolbar.setOnClickListener {
             onBackPressed()
@@ -78,7 +93,85 @@ class VideoActivity : AppCompatActivity() {
     }
 
     fun SResIT(arrayList: ArrayList<*>) {
-        binding?.checkboxSelectAll?.isChecked = false
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                    1123
+                )
+            }
+            else{
+                binding?.checkboxSelectAll?.isChecked = false
+                adapter?.selectedItem?.let {
+                    startRecovery(this,it,true,null)
+               /*     RecoverVideoAsyncTask(
+                        this,
+                        it, object : RecoverVideoAsyncTask.OnRestoreListener {
+                            override fun onComplete(str: String?) {
+                                if (str?.isEmpty() == true) {
+                                    val intent = Intent(this@VideoActivity, RecoveredVideosActivity::class.java)
+                                    intent.putExtra("value", arrayList.size)
+                                    intent.putExtra("type", 1)
+                                    this@VideoActivity.startActivity(intent)
+                                } else if (str == "Er1") {
+                                    val videoActivity = this@VideoActivity
+                                    Toast.makeText(
+                                        videoActivity,
+                                        videoActivity.getString(R.string.FileDeletedBeforeScan),
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                    val intent2 = Intent(
+                                        this@VideoActivity.applicationContext,
+                                        ScanImagesActivty::class.java
+                                    )
+                                    intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                    this@VideoActivity.startActivity(intent2)
+                                }
+                                adapter?.setAllImagesUnseleted()
+                                adapter?.notifyDataSetChanged()
+                            }
+                        })*/
+                }
+            }
+        }
+        else{
+            binding?.checkboxSelectAll?.isChecked = false
+            adapter?.selectedItem?.let {
+                startRecovery(this,it,true,null)
+                /*     RecoverVideoAsyncTask(
+                         this,
+                         it, object : RecoverVideoAsyncTask.OnRestoreListener {
+                             override fun onComplete(str: String?) {
+                                 if (str?.isEmpty() == true) {
+                                     val intent = Intent(this@VideoActivity, RecoveredVideosActivity::class.java)
+                                     intent.putExtra("value", arrayList.size)
+                                     intent.putExtra("type", 1)
+                                     this@VideoActivity.startActivity(intent)
+                                 } else if (str == "Er1") {
+                                     val videoActivity = this@VideoActivity
+                                     Toast.makeText(
+                                         videoActivity,
+                                         videoActivity.getString(R.string.FileDeletedBeforeScan),
+                                         Toast.LENGTH_LONG
+                                     ).show()
+                                     val intent2 = Intent(
+                                         this@VideoActivity.applicationContext,
+                                         ScanImagesActivty::class.java
+                                     )
+                                     intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                     this@VideoActivity.startActivity(intent2)
+                                 }
+                                 adapter?.setAllImagesUnseleted()
+                                 adapter?.notifyDataSetChanged()
+                             }
+                         })*/
+            }
+        }
+
+     /*   binding?.checkboxSelectAll?.isChecked = false
         this.mRecoverVideoAsyncTask = adapter?.selectedItem?.let {
             RecoverVideoAsyncTask(
                 this,
@@ -108,7 +201,37 @@ class VideoActivity : AppCompatActivity() {
                     }
                 })
         }
-        mRecoverVideoAsyncTask!!.execute(*arrayOfNulls<String>(0))
+        mRecoverVideoAsyncTask?.execute(*arrayOfNulls<String>(0))*/
+    }
+    private val recoveryCompleteReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val count = intent?.getIntExtra("value", 0) ?: 0
+            val type = intent?.getIntExtra("type", 1) ?: 1
+
+            val goIntent = Intent(this@VideoActivity, RecoveredVideosActivity::class.java)
+            goIntent.putExtra("value", count)
+            goIntent.putExtra("type", type)
+            startActivity(goIntent)
+        }
+    }
+
+    fun startRecovery(
+        context: Context,
+        videoList: ArrayList<VideoModel>,
+        delete: Boolean = false,
+        deleteDir: File? = null
+    ) {
+        val data = workDataOf(
+            "video_list" to RecoverUtils.toJson(videoList),
+            "delete" to delete,
+            "delete_dir" to deleteDir?.absolutePath
+        )
+
+        val request = OneTimeWorkRequestBuilder<RecoverVideoWorker>()
+            .setInputData(data)
+            .build()
+
+        WorkManager.getInstance(context).enqueue(request)
     }
 
 
@@ -118,8 +241,9 @@ class VideoActivity : AppCompatActivity() {
             return
         }
         binding?.checkboxSelectAll?.isChecked = false
-        this.mRecoverVideoAsyncTask = adapter?.selectedItem?.let {
-            RecoverVideoAsyncTask(
+        adapter?.selectedItem?.let {
+            startRecovery(this,it,true,null)
+        /*    RecoverVideoAsyncTask(
                 this,
                 it, true, object : RecoverVideoAsyncTask.OnRestoreListener {
                     override fun onComplete(str: String?) {
@@ -134,7 +258,7 @@ class VideoActivity : AppCompatActivity() {
                         adapter?.setAllImagesUnseleted()
                         adapter?.notifyDataSetChanged()
                     }
-                })
+                })*/
         }
         mRecoverVideoAsyncTask?.execute()
     }
@@ -148,5 +272,10 @@ class VideoActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(recoveryCompleteReceiver)
     }
 }

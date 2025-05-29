@@ -112,9 +112,9 @@
     <string name="remind_later">Remind later</string>
     <string name="restore">Restore</string>
     <string name="restore_file">Recover File</string>
-    <string name="restore_folder_path_audio">Recovered Audios</string>
-    <string name="restore_folder_path_photo">Recovered Photos</string>
-    <string name="restore_folder_path_video">Recovered Videos</string>
+    <string name="restore_folder_path_audio">Recovered AB Audios</string>
+    <string name="restore_folder_path_photo">Recovered AB Photos</string>
+    <string name="restore_folder_path_video">Recovered AB Videos</string>
     <string name="restore_now">Recover</string>
     <string name="restore_photo">Recover Deleted Files</string>
     <string name="restoring_number_format">Recovered ... %d files</string>

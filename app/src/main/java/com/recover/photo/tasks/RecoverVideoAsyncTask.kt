@@ -37,15 +37,17 @@ class RecoverVideoAsyncTask : AsyncTask<String?, Int?, String?> {
 
     fun Show_Diloge(con: Context?) {
         val alertCustomdialog = LayoutInflater.from(con).inflate(R.layout.cd, null)
-        val alert = AlertDialog.Builder(
-            con!!
-        )
+        val alert = con?.let {
+            AlertDialog.Builder(
+                it
+            )
+        }
         tvNumber = alertCustomdialog.findViewById(R.id.tvNumber)
-        alert.setView(alertCustomdialog)
-        dialog = alert.create()
-        dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog!!.setCancelable(false)
-        dialog!!.show()
+        alert?.setView(alertCustomdialog)
+        dialog = alert?.create()
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog?.setCancelable(false)
+        dialog?.show()
     }
 
 
@@ -94,7 +96,7 @@ class RecoverVideoAsyncTask : AsyncTask<String?, Int?, String?> {
                 val file = File(listPhoto[i].pathPhoto)
                 if (file.exists()) {
                     var i2 = 0
-                    if (dir!!.exists()) {
+                    if (dir?.exists() == true) {
                         while (i2 < 2) {
                             try {
                                 val fileOutputStream = FileOutputStream(file, false)
@@ -167,7 +169,7 @@ class RecoverVideoAsyncTask : AsyncTask<String?, Int?, String?> {
     fun copy(file: File?, file2: File?) {
         val channel = FileInputStream(file).channel
         val channel2 = FileOutputStream(file2).channel
-        channel!!.transferTo(0, channel.size(), channel2)
+        channel?.transferTo(0, channel.size(), channel2)
         if (channel != null) {
             channel.close()
         }
@@ -190,8 +192,8 @@ class RecoverVideoAsyncTask : AsyncTask<String?, Int?, String?> {
         var str = str
         super.onPostExecute(str)
         try {
-            if (this.dialog != null && dialog!!.isShowing) {
-                dialog!!.dismiss()
+            if (this.dialog != null && dialog?.isShowing == true) {
+                dialog?.dismiss()
                 this.dialog = null
             }
         } catch (ignored: Exception) {
@@ -200,7 +202,7 @@ class RecoverVideoAsyncTask : AsyncTask<String?, Int?, String?> {
             if (str == null) {
                 str = ""
             }
-            onRestoreListener!!.onComplete(str)
+            onRestoreListener?.onComplete(str)
         }
     }
 
