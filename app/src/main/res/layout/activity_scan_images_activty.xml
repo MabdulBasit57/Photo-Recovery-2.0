@@ -70,4 +70,25 @@
         android:textStyle="bold"
         android:visibility="visible" />
 
+    <TextView
+        android:id="@+id/tvPath"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:ellipsize="end"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scanLottie"
+        android:fontFamily="@font/roboto_light"
+        android:text=""
+        android:gravity="center"
+        android:maxLines="1"
+        android:layout_centerHorizontal="true"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:visibility="visible" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

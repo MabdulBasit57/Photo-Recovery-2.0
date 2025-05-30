@@ -7,6 +7,7 @@ import android.content.Intent
 import android.net.Uri
 
 object AppUtils {
+    var filter:Int=0
      fun rateApp(context:Context) {
         try {
             val rateIntent = rateIntentForUrl("market://details?id=",context)

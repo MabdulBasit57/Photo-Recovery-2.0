@@ -24,6 +24,7 @@ import com.recover.photo.pj.AudioModel;
 import com.recover.photo.pj.PhotoModel;
 import com.recover.photo.pj.VideoModel;
 import com.recover.photo.R;
+import com.recover.photo.utils.AppUtils;
 import com.recover.photo.utils.Utils;
 import com.skyfishjy.library.RippleBackground;
 
@@ -38,7 +39,9 @@ import java.util.Comparator;
 public class ScanImagesActivty extends AppCompatActivity {
 
     TextView tvNumber;
+    TextView tvPath;
     ImageView backToolbar;
+
     TextView title;
     public static ArrayList<AlbumAudio> mAlbumAudio = new ArrayList<>();
     public static ArrayList<AlbumPhoto> mAlbumPhoto = new ArrayList<>();
@@ -53,6 +56,7 @@ public class ScanImagesActivty extends AppCompatActivity {
         setContentView(R.layout.activity_scan_images_activty);
         position = getIntent().getIntExtra("position", -1);
         tvNumber = findViewById(R.id.tvNumber);
+        tvPath = findViewById(R.id.tvPath);
         title = findViewById(R.id.titleToolbar);
         backToolbar = findViewById(R.id.backToolbar);
         backToolbar.setOnClickListener(new View.OnClickListener() {
@@ -83,8 +87,11 @@ public class ScanImagesActivty extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+
+
     public void scanType(int i) {
         ScanAsyncTask scanAsyncTask = this.mScanAsyncTask;
+
         if (scanAsyncTask == null || scanAsyncTask.getStatus() != AsyncTask.Status.RUNNING) {
             mAlbumAudio.clear();
             mAlbumPhoto.clear();
@@ -92,19 +99,24 @@ public class ScanImagesActivty extends AppCompatActivity {
             this.tvNumber.setVisibility(View.VISIBLE);
             this.tvNumber.setText(getString(R.string.analyzing));
             this.mScanAsyncTask = new ScanAsyncTask(i);
+        this.mScanAsyncTask.setFilterDays(AppUtils.INSTANCE.getFilter());
             this.mScanAsyncTask.execute(new Void[i]);
+
             return;
         }
         Toast.makeText(this, getString(R.string.scan_wait), Toast.LENGTH_LONG).show();
     }
 
     public class ScanAsyncTask extends AsyncTask<Void, Integer, Void> {
+        public int filterDays = 0;
         ArrayList<AudioModel> listAudio = new ArrayList<>();
         ArrayList<PhotoModel> listPhoto = new ArrayList<>();
         ArrayList<VideoModel> listVideo = new ArrayList<>();
         int number = 0;
         int typeScan = 0;
-
+        public void setFilterDays(int days) {
+            this.filterDays = days;
+        }
         public ScanAsyncTask(int i) {
             this.typeScan = i;
         }
@@ -176,30 +188,35 @@ public class ScanImagesActivty extends AppCompatActivity {
 
             String absolutePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
             File file = new File(absolutePath);
-            Log.d("absolutePath =", "" + absolutePath);
             absolutePath = file.getAbsoluteFile().getParent();
-            Log.d("absolutePath 1=", "" + absolutePath);
 
-            StringBuilder sb = new StringBuilder();
-            sb.append("root = ");
-            sb.append(absolutePath);
-            if (this.typeScan == 0) {
+            Log.d("absolutePath =", absolutePath);
+
+            // Set your filter days: 0 = no filter, 7 = 7 days, 30 = 1 month
+            int filterDays = this.filterDays;
+            long filterMillis = filterDays * 24L * 60 * 60 * 1000;
+            long currentTime = System.currentTimeMillis();
+
+            if (this.typeScan == 0) { // Scanning Images
                 try {
                     getSdCardImage();
-                    Log.d("ssss", "" + Utils.getFileList(absolutePath).length);
-                    checkFileOfDirectoryImage(absolutePath, Utils.getFileList(absolutePath));
-                } catch (Exception unused) {
-                    unused.printStackTrace();
-                }
-                Collections.sort(mAlbumPhoto, new Comparator<AlbumPhoto>() {
-                    public int compare(AlbumPhoto albumPhoto, AlbumPhoto albumPhoto2) {
-                        return Long.compare(albumPhoto2.lastModified, albumPhoto.lastModified);
+
+                    // ✅ Custom lightweight file list (if needed)
+                    File[] files = Utils.getFileList(absolutePath);
+                    if (files != null && files.length > 0) {
+                        checkFileOfDirectoryImageFiltered(absolutePath, files, filterMillis, currentTime);
                     }
-                });
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                // ✅ Sort scanned albums by folder last modified time
+                Collections.sort(mAlbumPhoto, (a, b) -> Long.compare(b.lastModified, a.lastModified));
             }
             if (this.typeScan == 1) {
-                getSdCardVideo();
-                checkFileOfDirectoryVideo(absolutePath, Utils.getFileList(absolutePath));
+                getSdCardVideo(filterDays);
+                checkFileOfDirectoryVideo(absolutePath, Utils.getFileList(absolutePath),filterDays);
                 Collections.sort(mAlbumVideo, new Comparator<AlbumVideo>() {
                     public int compare(AlbumVideo albumVideo, AlbumVideo albumVideo2) {
                         return Long.compare(albumVideo2.lastModified, albumVideo.lastModified);
@@ -208,8 +225,8 @@ public class ScanImagesActivty extends AppCompatActivity {
             }
             if (this.typeScan == 2) {
                 try {
-                    getSdCardAudio();
-                    checkFileOfDirectoryAudio(absolutePath, Utils.getFileList(absolutePath));
+                    getSdCardAudio(filterDays);
+                    checkFileOfDirectoryAudio(absolutePath, Utils.getFileList(absolutePath),filterDays);
                 } catch (Exception unused2) {
                     unused2.printStackTrace();
                 }
@@ -223,17 +240,86 @@ public class ScanImagesActivty extends AppCompatActivity {
                 return null;
             }
         }
+        public void checkFileOfDirectoryImageFiltered(String str, File[] fileArr, long filterMillis, long currentTime) {
+            boolean contains = str.contains(Utils.getPathSave(ScanImagesActivty.this, getString(R.string.restore_folder_path_photo)));
+            int i2 = 0;
+            boolean z = false;
+
+            while (i2 < fileArr.length) {
+                File file = fileArr[i2];
+                if (file.isDirectory()) {
+                    String path = file.getPath();
+//                    tvPath.setText(file.getPath().toString());
+                    // ✅ Skip hidden/system folders
+                  /*  if (file.isHidden() || path.contains("/Android/") || path.contains("/cache/")) {
+                        i2++;
+                        continue;
+                    }*/
+
+                    File[] fileList = Utils.getFileList(path);
+                    if (fileList != null && fileList.length > 0) {
+                        checkFileOfDirectoryImageFiltered(path, fileList, filterMillis, currentTime);
+                    }
+
+                } else {
+                    long lastModified = file.lastModified();
+
+                    // ✅ Skip old files
+                    if (filterMillis > 0 && (currentTime - lastModified) > filterMillis) {
+                        i2++;
+                        continue;
+                    }
+
+                    // ✅ Check image metadata only if date matches
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inJustDecodeBounds = true;
+                    options.inSampleSize = 8;
+                    options.inDither = z;
+                    options.inPurgeable = true;
+                    options.inInputShareable = true;
+                    options.inTempStorage = new byte[32768];
+                    BitmapFactory.decodeFile(file.getPath(), options);
+
+                    if (!(contains || options.outWidth == -1 || options.outHeight == -1)) {
+                        if (isImageFile(file)) {
+                            long fileSize = file.length();
+                            listPhoto.add(new PhotoModel(file.getPath(), lastModified, fileSize));
+                            number++;
+                            publishProgress(number);
+                        }
+                    }
+                }
+
+                i2++;
+            }
+
+            // ✅ Save scanned album if photos found
+            if (!listPhoto.isEmpty()) {
+                AlbumPhoto albumPhoto = new AlbumPhoto();
+                albumPhoto.str_folder = str;
+                albumPhoto.lastModified = new File(str).lastModified();
+
+                Collections.sort(listPhoto, (a, b) -> Long.compare(b.getLastModified(), a.getLastModified()));
+                albumPhoto.listPhoto = (ArrayList<PhotoModel>) listPhoto.clone();
+                mAlbumPhoto.add(albumPhoto);
+            }
+
+            listPhoto.clear();
+        }
 
         public void checkFileOfDirectoryImage(String str, File[] fileArr) {
             int i;
             boolean contains = str.contains(Utils.getPathSave(ScanImagesActivty.this, getString(R.string.restore_folder_path_photo)));
             boolean z = false;
             int i2 = 0;
+            long currentTime = System.currentTimeMillis();
+            long filterMillis = filterDays > 0 ? (filterDays * 24L * 60L * 60L * 1000L) : 0;
+
             while (i2 < fileArr.length) {
                 if (fileArr[i2].isDirectory()) {
                     String path = fileArr[i2].getPath();
                     File[] fileList = Utils.getFileList(fileArr[i2].getPath());
-                    if (!(fileList == null || fileList.length <= 0)) {
+                    if (fileList != null && fileList.length > 0) {
                         checkFileOfDirectoryImage(path, fileList);
                     }
                 } else {
@@ -245,16 +331,22 @@ public class ScanImagesActivty extends AppCompatActivity {
                     options.inInputShareable = true;
                     options.inTempStorage = new byte[32768];
                     BitmapFactory.decodeFile(fileArr[i2].getPath(), options);
+
                     if (!(contains || options.outWidth == -1 || options.outHeight == -1)) {
                         File file = new File(fileArr[i2].getPath());
+                        long lastModified = file.lastModified();
+
+                        // ✅ Filter by date
+                        if (filterDays > 0 && (currentTime - lastModified) > filterMillis) {
+                            i2++;
+                            continue;
+                        }
+
                         if (isImageFile(file)) {
                             int parseInt = Integer.parseInt(String.valueOf(file.length()));
-                            ArrayList<PhotoModel> arrayList = this.listPhoto;
                             String path2 = fileArr[i2].getPath();
-                            long lastModified = file.lastModified();
-                            i = i2;
                             PhotoModel photoModel2 = new PhotoModel(path2, lastModified, (long) parseInt);
-                            arrayList.add(photoModel2);
+                            listPhoto.add(photoModel2);
                             number++;
                             publishProgress(number);
                         } else {
@@ -266,26 +358,28 @@ public class ScanImagesActivty extends AppCompatActivity {
                                 publishProgress(number);
                                 i2 = i + 1;
                                 z = false;
+                                continue;
                             }
                         }
-                        i2 = i + 1;
-                        z = false;
                     }
                 }
                 i = i2;
                 i2 = i + 1;
                 z = false;
             }
+
             if (this.listPhoto.size() != 0) {
                 AlbumPhoto albumPhoto = new AlbumPhoto();
                 albumPhoto.str_folder = str;
                 albumPhoto.lastModified = new File(str).lastModified();
-                Collections.sort(this.listPhoto, (photoModel, photoModel2) -> Long.compare(photoModel2.getLastModified(), photoModel.getLastModified()));
-                albumPhoto.listPhoto = (ArrayList) this.listPhoto.clone();
+                Collections.sort(this.listPhoto, (photoModel, photoModel2) ->
+                        Long.compare(photoModel2.getLastModified(), photoModel.getLastModified()));
+                albumPhoto.listPhoto = (ArrayList<PhotoModel>) this.listPhoto.clone();
                 mAlbumPhoto.add(albumPhoto);
             }
             this.listPhoto.clear();
         }
+
 
         public boolean isImageFile(File file) {
             String mimeType = getMimeType(file);
@@ -303,108 +397,147 @@ public class ScanImagesActivty extends AppCompatActivity {
         }
 
         public void getSdCardImage() {
+            // Set your filter days: 0 = no filter, 7 = 7 days, 30 = 1 month
+            int filterDays = this.filterDays;
+            long filterMillis = filterDays * 24L * 60 * 60 * 1000;
+            long currentTime = System.currentTimeMillis();
             String[] externalStorageDirectories = this.getExternalStorageDirectories();
             if (externalStorageDirectories != null && externalStorageDirectories.length > 0) {
                 for (String str : externalStorageDirectories) {
                     File file = new File(str);
                     if (file.exists()) {
-                        checkFileOfDirectoryImage(str, file.listFiles());
+
+                        checkFileOfDirectoryImageFiltered(str, file.listFiles(), filterMillis, currentTime);
                     }
                 }
             }
         }
 
-        public void checkFileOfDirectoryVideo(String str, File[] fileArr) {
+        public void checkFileOfDirectoryVideo(String str, File[] fileArr, int filterDays) {
             boolean contains = str.contains(Utils.getPathSave(ScanImagesActivty.this, getString(R.string.restore_folder_path_video)));
+
+            long currentTime = System.currentTimeMillis();
+            long filterTime = currentTime - (filterDays > 0 ? filterDays * 24L * 60 * 60 * 1000 : 0);
+
             if (fileArr != null) {
                 for (File value : fileArr) {
                     if (value.isDirectory()) {
                         String path = value.getPath();
+//                        tvPath.setText(value.getPath().toString());
                         File[] fileList = Utils.getFileList(value.getPath());
-                        if (!(path == null || fileList == null || fileList.length <= 0)) {
-                            checkFileOfDirectoryVideo(path, fileList);
+                        if (path != null && fileList != null && fileList.length > 0) {
+                            checkFileOfDirectoryVideo(path, fileList, filterDays);
                         }
                     } else {
                         File file = new File(value.getPath());
                         if (!contains && isVideoFile(file)) {
-                            String substring = value.getPath().substring(value.getPath().lastIndexOf(".") + 1);
-                            long j = 0;
-                            MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
-                            try {
-                                mediaMetadataRetriever.setDataSource(file.getPath());
-                                j = Long.parseLong(mediaMetadataRetriever.extractMetadata(9));
-                                mediaMetadataRetriever.release();
-                            } catch (Exception ignored) {
+                            long lastModified = file.lastModified();
+                            if (filterDays == 0 || lastModified >= filterTime) {
+                                String extension = value.getPath().substring(value.getPath().lastIndexOf(".") + 1);
+                                long duration = 0;
+                                MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+                                try {
+                                    retriever.setDataSource(file.getPath());
+                                    String durationStr = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+                                    duration = Long.parseLong(durationStr != null ? durationStr : "0");
+                                } catch (Exception ignored) {
+                                } finally {
+                                    try {
+                                        retriever.release();
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                VideoModel videoModel = new VideoModel(
+                                        value.getPath(),
+                                        lastModified,
+                                        file.length(),
+                                        extension,
+                                        Utils.convertDuration(duration)
+                                );
+                                this.listVideo.add(videoModel);
+                                number++;
+                                publishProgress(number);
                             }
-                            ArrayList<VideoModel> arrayList = this.listVideo;
-                            VideoModel videoModel2 = new VideoModel(value.getPath(), file.lastModified(), file.length(), substring, Utils.convertDuration(j));
-                            arrayList.add(videoModel2);
-                            number++;
-                            publishProgress(number);
                         }
                     }
                 }
-                if (this.listVideo.size() != 0) {
+
+                if (this.listVideo.size() > 0) {
                     AlbumVideo albumVideo = new AlbumVideo();
                     albumVideo.str_folder = str;
                     albumVideo.lastModified = new File(str).lastModified();
                     Collections.sort(this.listVideo, new Comparator<VideoModel>() {
-                        public int compare(VideoModel videoModel, VideoModel videoModel2) {
-                            return Long.valueOf(videoModel2.getLastModified()).compareTo(Long.valueOf(videoModel.getLastModified()));
+                        public int compare(VideoModel a, VideoModel b) {
+                            return Long.compare(b.getLastModified(), a.getLastModified());
                         }
                     });
                     albumVideo.listPhoto = (ArrayList) this.listVideo.clone();
                     mAlbumVideo.add(albumVideo);
                 }
+
                 this.listVideo.clear();
             }
         }
 
-        public void getSdCardVideo() {
+
+        public void getSdCardVideo(int filterDays) {
             String[] externalStorageDirectories = this.getExternalStorageDirectories();
             if (externalStorageDirectories != null && externalStorageDirectories.length > 0) {
                 for (String str : externalStorageDirectories) {
                     File file = new File(str);
                     if (file.exists()) {
-                        checkFileOfDirectoryVideo(str, file.listFiles());
+                        checkFileOfDirectoryVideo(str, file.listFiles(), filterDays);
                     }
                 }
             }
         }
 
-        public void checkFileOfDirectoryAudio(String str, File[] fileArr) {
-            int parseInt;
+
+        public void checkFileOfDirectoryAudio(String str, File[] fileArr, int filterDays) {
             boolean contains = str.contains(Utils.getPathSave(ScanImagesActivty.this, getString(R.string.restore_folder_path_audio)));
+            long currentTime = System.currentTimeMillis();
+            long filterTime = currentTime - (filterDays > 0 ? filterDays * 24L * 60 * 60 * 1000 : 0);
+
             for (File value : fileArr) {
                 if (value.isDirectory()) {
                     String path = value.getPath();
+//                    tvPath.setText(value.getPath().toString());
                     File[] fileList = Utils.getFileList(value.getPath());
-                    if (!(fileList == null || fileList.length <= 0)) {
-                        checkFileOfDirectoryAudio(path, fileList);
+                    if (fileList != null && fileList.length > 0) {
+                        checkFileOfDirectoryAudio(path, fileList, filterDays);
                     }
                 } else {
                     File file = new File(value.getPath());
-                    if (!contains && isAudioFile(file) && (parseInt = Integer.parseInt(String.valueOf(file.length()))) > 10000) {
-                        listAudio.add(new AudioModel(value.getPath(), file.lastModified(), (long) parseInt));
-                        number++;
-                        publishProgress(number);
+                    if (!contains && isAudioFile(file)) {
+                        long lastModified = file.lastModified();
+                        long fileSize = file.length();
+                        if ((filterDays == 0 || lastModified >= filterTime) && fileSize > 10000) {
+                            listAudio.add(new AudioModel(file.getPath(), lastModified, fileSize));
+                            number++;
+                            publishProgress(number);
+                        }
                     }
                 }
             }
-            if (this.listAudio.size() != 0) {
+
+            if (!listAudio.isEmpty()) {
                 AlbumAudio albumAudio = new AlbumAudio();
                 albumAudio.str_folder = str;
                 albumAudio.lastModified = new File(str).lastModified();
                 Collections.sort(this.listAudio, new Comparator<AudioModel>() {
-                    public int compare(AudioModel audioModel, AudioModel audioModel2) {
-                        return Long.valueOf(audioModel2.getLastModified()).compareTo(Long.valueOf(audioModel.getLastModified()));
+                    public int compare(AudioModel a, AudioModel b) {
+                        return Long.compare(b.getLastModified(), a.getLastModified());
                     }
                 });
                 albumAudio.listPhoto = (ArrayList) this.listAudio.clone();
                 mAlbumAudio.add(albumAudio);
             }
+
             this.listAudio.clear();
         }
+
 
         public String[] getExternalStorageDirectories() {
             File[] externalFilesDirs;
@@ -453,17 +586,18 @@ public class ScanImagesActivty extends AppCompatActivity {
             return strArr;
         }
 
-        public void getSdCardAudio() {
+        public void getSdCardAudio(int filterDays) {
             String[] externalStorageDirectories = getExternalStorageDirectories();
             if (externalStorageDirectories != null && externalStorageDirectories.length > 0) {
                 for (String str : externalStorageDirectories) {
                     File file = new File(str);
                     if (file.exists()) {
-                        checkFileOfDirectoryAudio(str, file.listFiles());
+                        checkFileOfDirectoryAudio(str, file.listFiles(), filterDays);
                     }
                 }
             }
         }
+
     }
 
     public String getMimeType(File file) {

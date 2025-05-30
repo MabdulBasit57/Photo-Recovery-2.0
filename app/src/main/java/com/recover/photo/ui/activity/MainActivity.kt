@@ -35,6 +35,7 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.recover.photo.R
 import com.recover.photo.databinding.ActivityMainBinding
+import com.recover.photo.utils.AppUtils.filter
 import com.recover.photo.utils.Utils
 import com.recover.photo.utils.percentage
 import com.recover.photo.utils.storageValue
@@ -248,82 +249,90 @@ class MainActivity : AppCompatActivity(){
             initializeMobileAdsSdk()
         }*/
     }
-    fun showRecoverDialog(msg:String,pos: Int,title:String) {
+    fun showRecoverDialog(msg: String, pos: Int, title: String) {
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.confirm_dialog)
         dialog.setCancelable(true)
+
         val btnYes = dialog.findViewById<TextView>(R.id.btnYes)
+        val btnNo = dialog.findViewById<TextView>(R.id.btnNo)
         val icon = dialog.findViewById<ImageView>(R.id.imgPhoto)
-        when(title){
-            "photo"->{
-                Glide.with(this)
-                    .load(R.drawable.photo_svg_main)
-                    .into(object : CustomTarget<Drawable>() {
-                        override fun onResourceReady(
-                            resource: Drawable,
-                            transition: Transition<in Drawable>?
-                        ) {
-                            icon.background = resource
-                        }
-                        override fun onLoadCleared(placeholder: Drawable?) {}
-                    })
-            }
-            "video"->{
-                Glide.with(this)
-                    .load(R.drawable.video_main_svg)
-                    .into(object : CustomTarget<Drawable>() {
-                        override fun onResourceReady(
-                            resource: Drawable,
-                            transition: Transition<in Drawable>?
-                        ) {
-                            icon.background = resource
-                        }
-                        override fun onLoadCleared(placeholder: Drawable?) {}
-                    })
-            }
-            "audio"->{
-                Glide.with(this)
-                    .load(R.drawable.audio_main_svg)
-                    .into(object : CustomTarget<Drawable>() {
-                        override fun onResourceReady(
-                            resource: Drawable,
-                            transition: Transition<in Drawable>?
-                        ) {
-                            icon.background = resource
-                        }
-                        override fun onLoadCleared(placeholder: Drawable?) {}
-                    })
-            }
-            else ->{
-                Glide.with(this)
-                    .load(R.drawable.photo_svg_main)
-                    .into(object : CustomTarget<Drawable>() {
-                        override fun onResourceReady(
-                            resource: Drawable,
-                            transition: Transition<in Drawable>?
-                        ) {
-                            icon.background = resource
-                        }
-                        override fun onLoadCleared(placeholder: Drawable?) {}
-                    })
-            }
+        val message = dialog.findViewById<TextView>(R.id.tvMessage)
+        message.text = msg
+
+        val tv7Days = dialog.findViewById<TextView>(R.id.btn7Days)
+        val tv30Days = dialog.findViewById<TextView>(R.id.btn30Days)
+        val tvLifetime = dialog.findViewById<TextView>(R.id.btnLifetime)
+
+        var selectedFilterDays: Int? = null
+
+        fun selectFilter(selected: TextView, days: Int) {
+            tv7Days.setBackgroundResource(R.drawable.btn_filter_bg)
+            tv30Days.setBackgroundResource(R.drawable.btn_filter_bg)
+            tvLifetime.setBackgroundResource(R.drawable.btn_filter_bg)
+
+            selected.setBackgroundResource(R.drawable.bg_filter_bg_selected)
+            selected.setTextColor(resources.getColor(R.color.white))
+            selectedFilterDays = days
+            filter=days
+
+            btnYes.isEnabled = true
+            btnYes.alpha = 1f
         }
 
-        val message = dialog.findViewById<TextView>(R.id.tvMessage)
-        message.text=msg
-        val btnNo = dialog.findViewById<TextView>(R.id.btnNo)
+        // Initial disable
+//        btnYes.isEnabled = false
+        btnYes.alpha = 0.3f
+
+        // Filter option clicks
+        tv7Days.setOnClickListener { selectFilter(tv7Days, 7)
+            tv30Days.setTextColor(resources.getColor(R.color.black))
+            tvLifetime.setTextColor(resources.getColor(R.color.black))
+        }
+        tv30Days.setOnClickListener { selectFilter(tv30Days, 30)
+            tv7Days.setTextColor(resources.getColor(R.color.black))
+            tvLifetime.setTextColor(resources.getColor(R.color.black))}
+        tvLifetime.setOnClickListener { selectFilter(tvLifetime, 0)
+            tv30Days.setTextColor(resources.getColor(R.color.black))
+            tv7Days.setTextColor(resources.getColor(R.color.black))}
 
         btnYes.setOnClickListener {
-            checkButtonsPermissions(pos)
-            dialog.dismiss()
+            if (selectedFilterDays == null) {
+                Toast.makeText(this, "Please select a filter option", Toast.LENGTH_SHORT).show()
+            } else {
+                checkButtonsPermissions(pos)
+                dialog.dismiss()
+            }
         }
+
         btnNo.setOnClickListener {
             dialog.dismiss()
         }
+
+        // Load icon
+        val iconRes = when (title) {
+            "photo" -> R.drawable.photo_svg_main
+            "video" -> R.drawable.video_main_svg
+            "audio" -> R.drawable.audio_main_svg
+            else -> R.drawable.photo_svg_main
+        }
+
+        Glide.with(this)
+            .load(iconRes)
+            .into(object : CustomTarget<Drawable>() {
+                override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                    icon.background = resource
+                }
+
+                override fun onLoadCleared(placeholder: Drawable?) {}
+            })
+
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
     }
+
+
 
     private fun initializeMobileAdsSdk() {
         if (isMobileAdsInitializeCalled.getAndSet(true)) {
