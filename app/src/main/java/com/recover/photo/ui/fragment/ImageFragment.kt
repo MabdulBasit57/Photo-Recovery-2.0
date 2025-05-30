@@ -40,7 +40,7 @@ class ImageFragment : Fragment() {
 
     private fun getAllFiles(): List<File> {
         val files = mutableListOf<File>()
-        val f = File(Utils.getPathSave(requireContext(), "Recovered Photos"))
+        val f = File(Utils.getPathSave(requireContext(), "Recovered AB Photos"))
 
         val fileList = f.listFiles()
 
