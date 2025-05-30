@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">Photo recovery</string>
+    <string name="app_name">Data recovery</string>
 
-    <string name="url_privacy">https://docs.google.com/document/d/e/2PACX-1vSVLzGF6ORR0F_ZeTQpHcNX9wUh6buEsxCnu0H43cpIB96myJKWhhuvb1Opg_1WRjBTPhx3PjY30mqG/pub</string>
+    <string name="url_privacy">https://docs.google.com</string>
 
 
     <!--    test Ads-->

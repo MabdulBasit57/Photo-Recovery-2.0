@@ -66,7 +66,7 @@ public class RecoveredImagesActivity extends AppCompatActivity implements MainLi
 
 
 
-        File f = new File(Utils.getPathSave(this, "Recovered Photos"));
+        File f = new File(Utils.getPathSave(this, "Recovered AB Photos"));
 
         File[] FileList = f.listFiles();
 

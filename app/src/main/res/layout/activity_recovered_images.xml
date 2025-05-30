@@ -10,11 +10,11 @@
 
     <RelativeLayout
         android:id="@+id/deleteLay"
-        android:layout_width="match_parent"
-        android:layout_height="320dp"
+        android:layout_width="@dimen/_150sdp"
+        android:layout_height="@dimen/_150sdp"
         android:layout_centerInParent="true"
         android:visibility="gone"
-        android:background="@drawable/searchicon" />
+        android:background="@drawable/empty" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/filesRecyclerView"
         android:layout_width="match_parent"

@@ -46,7 +46,7 @@ class AdapterRestoredImages(var context: Context, var alImageData: ArrayList<Ima
         view.tag = viewGroup
         try {
             GlideApp.with(context).load(alImageData[position].filePath)
-                .placeholder(R.drawable.no_image).centerCrop().into(ivPic)
+                .placeholder(R.drawable.empty).centerCrop().into(ivPic)
         } catch (e: Exception) {
             //do nothing
             Toast.makeText(context, "Exception: " + e.message, Toast.LENGTH_SHORT).show()

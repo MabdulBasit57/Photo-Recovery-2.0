@@ -34,7 +34,7 @@ class RecoverAudioAsyncTask : AsyncTask<String?, Int?, String?> {
 
 
     fun Show_Diloge(con: Context?) {
-        val alertCustomdialog = LayoutInflater.from(con).inflate(R.layout.cd, null)
+        val alertCustomdialog = LayoutInflater.from(con).inflate(R.layout.recovering_dialog, null)
         val alert = AlertDialog.Builder(
             con!!
         )

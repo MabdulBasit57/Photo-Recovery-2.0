@@ -3,8 +3,8 @@
 
     <solid android:color="@color/white" />
     <stroke
-        android:width="2dp"
-        android:color="@color/appcolor" />
+        android:width="1dp"
+        android:color="@color/ad_button_text_color" />
 
 
     <padding
@@ -14,9 +14,9 @@
         android:top="10dp" />
 
     <corners
-        android:bottomLeftRadius="20dp"
-        android:bottomRightRadius="20dp"
-        android:topLeftRadius="20dp"
-        android:topRightRadius="20dp" />
+        android:bottomLeftRadius="30dp"
+        android:bottomRightRadius="30dp"
+        android:topLeftRadius="30dp"
+        android:topRightRadius="30dp" />
 
 </shape>

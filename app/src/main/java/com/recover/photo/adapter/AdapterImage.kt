@@ -46,8 +46,8 @@ class AdapterImage(var context: Context, var alImageData: ArrayList<ImageData>?)
         }
         view.tag = viewGroup
         try {
-            Glide.with(context).load(alImageData!![position].filePath)
-                .placeholder(R.drawable.no_image).centerCrop().into(ivPic)
+            Glide.with(context).load(alImageData?.get(position)?.filePath)
+                .placeholder(R.drawable.empty).centerCrop().into(ivPic)
         } catch (e: Exception) {
             //do nothing
             Toast.makeText(context, "Exception: " + e.message, Toast.LENGTH_SHORT).show()
