@@ -10,12 +10,14 @@ import android.provider.Settings
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
 import com.recover.photo.R
+import com.recover.photo.utils.AppUtils
 
 /**
  * A [PreferenceActivity] that presents a set of application settings. On
@@ -40,6 +42,14 @@ class AboutActivity : AppCompatActivity() {
 
     private fun toggle() {
         val toggleRoot = findViewById<RelativeLayout>(R.id.toggleRoot)
+        val privacyButton = findViewById<LinearLayout>(R.id.privacy_button)
+        val rateus = findViewById<LinearLayout>(R.id.rateus_button)
+        privacyButton.setOnClickListener {
+            AppUtils.privacypolicy(this)
+        }
+        rateus.setOnClickListener {
+            AppUtils.rateApp(this)
+        }
         val toggleThumb = findViewById<View>(R.id.toggleThumb)
 
         isEnabled = areNotificationsEnabled()
@@ -93,18 +103,22 @@ class AboutActivity : AppCompatActivity() {
 
     private fun updateToggleUI(toggleRoot: RelativeLayout, toggleThumb: View, enabled: Boolean) {
         toggleRoot.setBackgroundResource(if (enabled) R.drawable.bg_toggle_on else R.drawable.bg_toggle_off)
-
-        val animator = ObjectAnimator.ofFloat(
-            toggleThumb, "translationX",
-            if (enabled) toggleRoot.width - toggleThumb.width - 8f else 0f
-        )
-        animator.duration = 250
-        animator.start()
-
+        val params = toggleThumb.layoutParams as RelativeLayout.LayoutParams
+        if (enabled) {
+            params.removeRule(RelativeLayout.ALIGN_PARENT_START)
+            params.addRule(RelativeLayout.ALIGN_PARENT_END, RelativeLayout.TRUE)
+            toggleThumb.layoutParams = params
+        } else {
+            params.removeRule(RelativeLayout.ALIGN_PARENT_END)
+            params.addRule(RelativeLayout.ALIGN_PARENT_START, RelativeLayout.TRUE)
+            toggleThumb.layoutParams = params
+        }
         isEnabled = enabled
     }
 
+
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 1001 && permissions.contains(android.Manifest.permission.POST_NOTIFICATIONS)) {
             val granted = grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
             val toggleRoot = findViewById<RelativeLayout>(R.id.toggleRoot)

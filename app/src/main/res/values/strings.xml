@@ -24,10 +24,12 @@
 
     <string name="appDescription">Data recovery allows you to recover deleted data on your phone</string>
     <string name="autor">M.A.B</string>
+    <string name="rate_us">Rate Us</string>
     <string name="descripton">Data recovery allows you to recover deleted data on your phone</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_subtitle">techie_@tech.com</string>
+    <string name="play_store">Google Play Store</string>
     <string name="action_restore">Restore</string>
     <string name="action_delete">Delete</string>
     <string name="Privacy_policy">Privacy Policy</string>
@@ -39,7 +41,7 @@
     <string name="scan_photos">Scan Photos</string>
     <string name="TODO">TODO</string>
     <string name="photos_recovery">Data Recovery</string>
-    <string name="restore_deleted_photos">restore deleted photos</string>
+    <string name="restore_deleted_photos">Recover deleted photos</string>
     <string name="TODo">TODO</string>
     <string name="version">Version</string>
     <string name="_1_0_0">1.0.1</string>

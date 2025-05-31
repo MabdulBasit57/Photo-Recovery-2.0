@@ -27,7 +27,7 @@ object AppUtils {
     }
     fun privacypolicy(activity: Activity){
         try {
-            val url = "https://docs.google.com/document/d/e/2PACX-1vSVLzGF6ORR0F_ZeTQpHcNX9wUh6buEsxCnu0H43cpIB96myJKWhhuvb1Opg_1WRjBTPhx3PjY30mqG/pub"
+            val url = "https://docs.google.com"
             val i = Intent(Intent.ACTION_VIEW)
             i.data = Uri.parse(url)
             activity.startActivity(i)

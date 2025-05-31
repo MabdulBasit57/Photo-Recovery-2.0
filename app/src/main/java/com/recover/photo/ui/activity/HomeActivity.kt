@@ -55,6 +55,10 @@ class HomeActivity :AppCompatActivity(){
         binding.customToolbar.backToolbar.setOnClickListener {
             onBackPressed()
         }
+        binding.customToolbar.setting.visibility=View.VISIBLE
+        binding.customToolbar.setting.setOnClickListener {
+            startActivity(Intent(this,AboutActivity::class.java))
+        }
         binding.customToolbar.titleToolbar.text="Recovery App"
         binding.customToolbar.backToolbar.visibility=View.GONE
         // Initialize views
