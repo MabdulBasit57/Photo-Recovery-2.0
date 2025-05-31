@@ -25,7 +25,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:background="@drawable/audio_png"/>
+            android:background="@drawable/music_svg"/>
         <TextView
             android:id="@+id/tvDate"
             android:layout_width="0dp"

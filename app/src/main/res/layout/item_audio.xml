@@ -24,7 +24,7 @@
             android:id="@+id/iv_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/audio_png" />
+            android:src="@drawable/music_svg" />
     </RelativeLayout>
 
     <LinearLayout

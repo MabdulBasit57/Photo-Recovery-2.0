@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#A9F4F4F4"
+    android:background="#86F4F4F4"
     tools:context="com.recover.photo.ui.activity.AboutActivity">
     <include
         android:id="@+id/customToolbar"
@@ -14,7 +14,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#A9F4F4F4"
+        android:background="#86F4F4F4"
         android:clickable="true"
         android:focusable="true"
         app:layout_constraintTop_toBottomOf="@+id/customToolbar"
