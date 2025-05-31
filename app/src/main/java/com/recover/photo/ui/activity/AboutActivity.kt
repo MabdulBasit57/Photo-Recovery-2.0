@@ -79,7 +79,7 @@ class AboutActivity : AppCompatActivity() {
         backToolbar.setOnClickListener {
             onBackPressed()
         }
-        titleToolbar.text="Setting"
+        titleToolbar.text="Settings"
     }
 
 
