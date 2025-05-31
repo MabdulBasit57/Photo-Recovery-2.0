@@ -1,10 +1,20 @@
 package com.recover.photo.ui.activity
 
+import android.animation.ObjectAnimator
+import android.app.NotificationManager
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.MenuItem
+import android.view.View
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationManagerCompat
 import com.recover.photo.R
 
 /**
@@ -19,11 +29,35 @@ import com.recover.photo.R
  * API Guide](http://developer.android.com/guide/topics/ui/settings.html) for more information on developing a Settings UI.
  */
 class AboutActivity : AppCompatActivity() {
+    private var isEnabled = false
     // private InterstitialAd mInterstitialAd;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about)
         setupActionBar()
+        toggle()
+    }
+
+    private fun toggle() {
+        val toggleRoot = findViewById<RelativeLayout>(R.id.toggleRoot)
+        val toggleThumb = findViewById<View>(R.id.toggleThumb)
+
+        isEnabled = areNotificationsEnabled()
+
+        updateToggleUI(toggleRoot, toggleThumb, isEnabled)
+
+        toggleRoot.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                if (!isEnabled) {
+                    requestNotificationPermission()
+                } else {
+                    // Optionally, open settings to manually disable
+                    openAppNotificationSettings()
+                }
+            } else {
+                Toast.makeText(this, "Notifications can only be toggled manually below Android 13", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     /**
@@ -45,5 +79,45 @@ class AboutActivity : AppCompatActivity() {
             finish()
         }
         return super.onOptionsItemSelected(item)
+    }
+    private fun requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 1001)
+        }
+    }
+
+    private fun areNotificationsEnabled(): Boolean {
+        val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        return NotificationManagerCompat.from(this).areNotificationsEnabled()
+    }
+
+    private fun updateToggleUI(toggleRoot: RelativeLayout, toggleThumb: View, enabled: Boolean) {
+        toggleRoot.setBackgroundResource(if (enabled) R.drawable.bg_toggle_on else R.drawable.bg_toggle_off)
+
+        val animator = ObjectAnimator.ofFloat(
+            toggleThumb, "translationX",
+            if (enabled) toggleRoot.width - toggleThumb.width - 8f else 0f
+        )
+        animator.duration = 250
+        animator.start()
+
+        isEnabled = enabled
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        if (requestCode == 1001 && permissions.contains(android.Manifest.permission.POST_NOTIFICATIONS)) {
+            val granted = grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
+            val toggleRoot = findViewById<RelativeLayout>(R.id.toggleRoot)
+            val toggleThumb = findViewById<View>(R.id.toggleThumb)
+            updateToggleUI(toggleRoot, toggleThumb, granted)
+        }
+    }
+
+    private fun openAppNotificationSettings() {
+        val intent = Intent().apply {
+            action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
+            putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
+        }
+        startActivity(intent)
     }
 }

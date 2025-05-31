@@ -45,7 +45,7 @@
     <string name="_1_0_0">1.0.1</string>
     <string name="ToDo">TODO</string>
     <string name="descritoion">Description</string>
-    <string name="author">Author</string>
+    <string name="author">Contact Us</string>
     <string name="Todo">TODO</string>
     <string name="Restored_photos">Restored Photos</string>
     <string name="About">About</string>
@@ -150,6 +150,7 @@
 <!--    Real Ads-->
 <!--    <string name="fb_init">305308904850118_305321131515562</string>-->
     <string name="storage_details">Storage</string>
+    <string name="notification">Notification</string>
 
     <!--    <string name="fb_banner">305308904850118_305320841515591</string>-->
 
