@@ -63,10 +63,15 @@ class RecoverVideoWorker(
                         }
                         file.delete()
                     }
-                    val intent = Intent("android.intent.action.MEDIA_SCANNER_SCAN_FILE")
-                    intent.setData(Uri.fromFile(file))
-                    context.sendBroadcast(intent)
-                    MediaScanner(context, file)
+                    try {
+                        val intent = Intent("android.intent.action.MEDIA_SCANNER_SCAN_FILE")
+                        intent.setData(Uri.fromFile(file))
+                        context?.sendBroadcast(intent)
+                        MediaScanner(context, file)
+                    } catch (e: Exception) {
+                       e.printStackTrace()
+                    }
+
 //                    var count = i + 1
 //                    publishProgress(count)
                     try {
@@ -110,15 +115,19 @@ class RecoverVideoWorker(
             } catch (e: IOException) {
                 e.printStackTrace()
             }
-            val intent2 = Intent("android.intent.action.MEDIA_SCANNER_SCAN_FILE")
-            intent2.setData(Uri.fromFile(file4))
-            context.sendBroadcast(intent2)
-            MediaScanner(context, file4)
-           /* try {
-                setForeground(createForegroundInfo(i3 + 1))
+            try {
+                val intent2 = Intent("android.intent.action.MEDIA_SCANNER_SCAN_FILE")
+                intent2.setData(Uri.fromFile(file4))
+                context.sendBroadcast(intent2)
+                MediaScanner(context, file4)
             } catch (e: Exception) {
                e.printStackTrace()
-            }*/
+            }
+            /* try {
+                 setForeground(createForegroundInfo(i3 + 1))
+             } catch (e: Exception) {
+                e.printStackTrace()
+             }*/
             delay(1000L)
         }
        /* for ((index, video) in videoList.withIndex()) {
