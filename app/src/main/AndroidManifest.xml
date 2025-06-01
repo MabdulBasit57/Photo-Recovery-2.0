@@ -46,6 +46,10 @@
             android:exported="false"
             android:theme="@style/AppThemeNoActionBar"/>
         <activity
+            android:name="com.recover.photo.ui.onboarding.OnboardingActivity"
+            android:exported="false"
+            android:theme="@style/AppThemeNoActionBar"/>
+        <activity
             android:name="com.recover.photo.ui.activity.RecoveredFilesActivity"
             android:exported="false"
             android:theme="@style/AppThemeNoActionBar"/>

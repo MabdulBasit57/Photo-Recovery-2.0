@@ -19,6 +19,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 //import com.google.android.gms.ads.MobileAds
 import com.recover.photo.R
+import com.recover.photo.ui.onboarding.OnboardingActivity
+import com.recover.photo.utils.SharedPrefHelper
 import com.recover.photo.utils.Utils
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -124,8 +126,14 @@ class SplashScreen : AppCompatActivity() {
         }
     }
     private fun showOpenAd(){
-        startActivity(Intent(this@SplashScreen, HomeActivity::class.java))
-        finish()
+        if(SharedPrefHelper.isFirstTime(this)){
+            startActivity(Intent(this@SplashScreen, OnboardingActivity::class.java))
+            finish()
+        }
+        else{
+            startActivity(Intent(this@SplashScreen, HomeActivity::class.java))
+            finish()
+        }
      /*   (application as MyApplication).showAdIfAvailable(
             this@SplashScreen,
             object : MyApplication.OnShowAdCompleteListener {
