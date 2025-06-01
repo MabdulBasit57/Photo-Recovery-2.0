@@ -39,7 +39,7 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="12dp"
+                    app:cardCornerRadius="16dp"
                     app:cardBackgroundColor="#F5F5F5"
                     app:cardElevation="@dimen/_1sdp"
                     app:cardUseCompatPadding="true">
@@ -267,7 +267,7 @@
                     android:layout_height="wrap_content"
                     android:visibility="visible"
                     app:cardBackgroundColor="#F5F5F5"
-                    app:cardCornerRadius="12dp"
+                    app:cardCornerRadius="16dp"
                     android:layout_marginHorizontal="@dimen/_1sdp"
                     app:cardUseCompatPadding="true">
 
@@ -353,7 +353,7 @@
                     android:layout_height="wrap_content"
                     android:visibility="visible"
                     app:cardBackgroundColor="#F5F5F5"
-                    app:cardCornerRadius="12dp"
+                    app:cardCornerRadius="16dp"
                     android:layout_marginHorizontal="@dimen/_1sdp"
                     app:cardElevation="@dimen/_1sdp"
                     app:cardUseCompatPadding="true">
