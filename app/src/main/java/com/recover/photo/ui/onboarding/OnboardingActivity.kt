@@ -41,6 +41,7 @@ import com.recover.photo.databinding.ActivityOnboardingBinding
 import com.recover.photo.ui.activity.HomeActivity
 import com.recover.photo.ui.onboarding.adapter.OnboardingAdapter
 import com.recover.photo.ui.onboarding.adapter.OnboardingItem
+import com.recover.photo.ui.onboarding.adapter.OnboardingPagerAdapter
 import com.recover.photo.utils.AppUtils.filter
 import com.recover.photo.utils.SharedPrefHelper
 import com.recover.photo.utils.Utils
@@ -69,7 +70,7 @@ class OnboardingActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val adapter = OnboardingAdapter(onboardingItems)
+        val adapter = OnboardingPagerAdapter(this)
         binding.viewPager.adapter = adapter
 
         binding.btnSkip.setOnClickListener {
@@ -77,10 +78,10 @@ class OnboardingActivity : AppCompatActivity(){
             startActivity(Intent(this, HomeActivity::class.java))
             finish()
         }
-
         binding.btnNext.setOnClickListener {
-            if (binding.viewPager.currentItem + 1 < onboardingItems.size) {
-                binding.viewPager.currentItem += 1
+            val next = binding.viewPager.currentItem + 1
+            if (next < 5) {
+                binding.viewPager.currentItem = next
             } else {
                 SharedPrefHelper.setNotFirstTime(this)
                 startActivity(Intent(this, HomeActivity::class.java))
