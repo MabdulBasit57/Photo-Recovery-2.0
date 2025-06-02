@@ -8,6 +8,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.multidex.MultiDexApplication
+import com.google.android.gms.ads.MobileAds
 /*import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
@@ -33,6 +34,8 @@ class MyApplication : MultiDexApplication(), Application.ActivityLifecycleCallba
 //        appOpenAdManager = AppOpenAdManager()
         openAdImpression?.postValue(false)
         CookieHandler.setDefault(CookieManager(null, CookiePolicy.ACCEPT_ALL))
+        MobileAds.initialize(this)
+
     }
     /**
      * DefaultLifecycleObserver method that shows the app open ad when the app moves to foreground.

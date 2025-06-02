@@ -17,9 +17,11 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.google.android.gms.ads.MobileAds
 //import com.google.android.gms.ads.MobileAds
 import com.recover.photo.R
 import com.recover.photo.ui.onboarding.OnboardingActivity
+import com.recover.photo.utils.AdUtils
 import com.recover.photo.utils.SharedPrefHelper
 import com.recover.photo.utils.Utils
 import java.util.concurrent.atomic.AtomicBoolean
@@ -51,7 +53,16 @@ class SplashScreen : AppCompatActivity() {
         }*/
 
         // Initialize the Mobile Ads SDK.
-//        MobileAds.initialize(this) {}
+        MobileAds.initialize(this) {
+            if(SharedPrefHelper.isFirstTime(this)){
+                AdUtils.loadFullScreenNativeAdOB1(this,resources.getString(R.string.native_ad_large_id))
+                AdUtils.loadFullScreenNativeAdOB2(this,resources.getString(R.string.native_ad_large_id))
+                AdUtils.loadFullScreenNativeAdOB3(this,resources.getString(R.string.native_ad_large_id))
+                AdUtils.loadFullScreenNativeAdLarge(this,resources.getString(R.string.native_ad_large_id))
+                AdUtils.loadFullScreenNativeAdLarge2(this,resources.getString(R.string.native_ad_large_id))
+            }
+            AdUtils.loadNative(this,resources.getString(R.string.native_ad_large_id))
+        }
 
         // Load an ad.
 //        (application as MyApplication).loadAd(this)
