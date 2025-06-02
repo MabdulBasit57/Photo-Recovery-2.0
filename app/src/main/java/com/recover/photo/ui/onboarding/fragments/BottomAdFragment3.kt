@@ -5,14 +5,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import com.recover.photo.databinding.FragmentBottomAdBinding
+import com.recover.photo.R
+import com.recover.photo.databinding.ActivityMainBinding
+import com.recover.photo.databinding.FragmentBottomAd3Binding
 import com.recover.photo.ui.onboarding.OnboardingActivity
 
-class BottomAdFragment : Fragment() {
-    var mActivity: FragmentActivity?=null
-    private val binding by lazy { FragmentBottomAdBinding.inflate(layoutInflater) }
+class BottomAdFragment3 : Fragment() {
+    var mActivity:FragmentActivity?=null
+    private val binding by lazy { FragmentBottomAd3Binding.inflate(layoutInflater) }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

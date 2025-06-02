@@ -8,9 +8,9 @@
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@drawable/ob2"
         app:layout_constraintDimensionRatio="428:436"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/ob1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:text="Recieve Your old memories"
+        android:text="Select your data by date"
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="@id/imageView"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,10 +29,11 @@
     <TextView
         android:id="@+id/descView"
         android:layout_width="0dp"
+        app:layout_constraintWidth_percent="0.75"
         android:layout_height="wrap_content"
-        android:text="Recover your deleted photos and videos"
-        android:gravity="center"
         android:layout_marginTop="@dimen/_2sdp"
+        android:gravity="center"
+        android:text="Chose your data before by date and time and restore it"
         app:layout_constraintTop_toBottomOf="@id/titleView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
