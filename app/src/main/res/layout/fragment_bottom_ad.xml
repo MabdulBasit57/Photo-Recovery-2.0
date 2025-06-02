@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:text="Recieve Your old memories"
+        android:text="Receive Your old memories"
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="@id/imageView"
         app:layout_constraintStart_toStartOf="parent"
