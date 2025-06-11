@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:clickable="true"
     android:background="#FAFAFA"
-    tools:context="com.recover.photo.ui.activity.ScannerActivity"
+    tools:context="com.decentapps.supre.photorecovery.datarecovery.ui.activity.ScannerActivity"
     android:focusable="true">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/customToolbar"

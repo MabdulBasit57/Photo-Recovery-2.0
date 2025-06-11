@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context="com.recover.photo.ui.activity.SplashScreen">
+    tools:context="com.decentapps.supre.photorecovery.datarecovery.ui.activity.SplashScreen">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:orientation="vertical"
         android:layout_marginTop="@dimen/_50sdp"

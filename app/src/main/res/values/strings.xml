@@ -16,11 +16,18 @@
     <!--    <string name="admob_rewarded_ad" translatable="false">ca-app-pub-3940256099942544/5224354917</string>-->
 
     <!--Real Ads -->
-        <string name="admob_application_id" translatable="false">ca-app-pub-2924386003273380~6615656726</string>
+        <string name="admob_application_id" translatable="false">ca-app-pub-2616276497783499~7410014283</string>
 <!--        <string name="home_interstitial_id" translatable="false">ca-app-pub-7853241901786470/4120060133</string>-->
         <string name="native_ad_large_id" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+        <string name="hf_native_ad_large_id" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
         <string name="native_ad_large_id2" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
-        <string name="native_ad_ob1" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+        <string name="hf_native_ad_large_id2" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+        <string name="native_ad_ob1" translatable="false">ca-app-pub-2616276497783499~7410014283</string>
+        <string name="hf_native_ad_ob1" translatable="false">ca-app-pub-2616276497783499~7410014283</string>
+        <string name="native_ad_ob2" translatable="false">ca-app-pub-2616276497783499~7410014283</string>
+        <string name="hf_native_ad_ob2" translatable="false">ca-app-pub-2616276497783499~7410014283</string>
+           <string name="native_ad_ob3" translatable="false">ca-app-pub-2616276497783499~7410014283</string>
+        <string name="hf_native_ad_ob3" translatable="false">ca-app-pub-2616276497783499~7410014283</string>
 <!--        <string name="home_banner_id" translatable="false">ca-app-pub-7853241901786470/2451755245</string>-->
 <!--    <string name="admob_open_ad">ca-app-pub-7853241901786470/7573958096</string>-->
 

@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center">
 
-                <com.recover.photo.utils.SquareImageView
+                <com.decentapps.supre.photorecovery.datarecovery.utils.SquareImageView
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:layout_marginStart="@dimen/_5sdp"

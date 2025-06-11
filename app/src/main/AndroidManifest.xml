@@ -30,7 +30,7 @@
 <!--    <dist:module dist:instant="true" />-->
 
     <application
-        android:name="com.recover.photo.appcontroller.MyApplication"
+        android:name="com.decentapps.supre.photorecovery.datarecovery.appcontroller.MyApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
@@ -42,86 +42,86 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name="com.recover.photo.ui.activity.ViewRecoveredImages"
+            android:name="com.decentapps.supre.photorecovery.datarecovery.ui.activity.ViewRecoveredImages"
             android:exported="false"
             android:theme="@style/AppThemeNoActionBar"/>
         <activity
-            android:name="com.recover.photo.ui.onboarding.OnboardingActivity"
+            android:name="com.decentapps.supre.photorecovery.datarecovery.ui.onboarding.OnboardingActivity"
             android:exported="false"
             android:theme="@style/AppThemeNoActionBar"/>
         <activity
-            android:name="com.recover.photo.ui.activity.RecoveredFilesActivity"
+            android:name="com.decentapps.supre.photorecovery.datarecovery.ui.activity.RecoveredFilesActivity"
             android:exported="false"
             android:theme="@style/AppThemeNoActionBar"/>
         <activity
-            android:name="com.recover.photo.ui.activity.RecoveredAudiosActivity"
+            android:name="com.decentapps.supre.photorecovery.datarecovery.ui.activity.RecoveredAudiosActivity"
             android:exported="false"
             android:theme="@style/AppThemeNoActionBar"/>
         <activity
-            android:name="com.recover.photo.ui.activity.RecoveredVideosActivity"
+            android:name="com.decentapps.supre.photorecovery.datarecovery.ui.activity.RecoveredVideosActivity"
             android:exported="false"
             android:theme="@style/AppThemeNoActionBar"/>
         <activity
-            android:name="com.recover.photo.ui.activity.RecoveredImagesActivity"
+            android:name="com.decentapps.supre.photorecovery.datarecovery.ui.activity.RecoveredImagesActivity"
             android:exported="false"
             android:theme="@style/AppThemeNoActionBar"/>
         <activity
-            android:name="com.recover.photo.ui.activity.AlbumAudioActivity"
+            android:name="com.decentapps.supre.photorecovery.datarecovery.ui.activity.AlbumAudioActivity"
             android:exported="false"
             android:theme="@style/AppThemeNoActionBar"/>
         <activity
-            android:name="com.recover.photo.ui.activity.FileInfoActivity"
+            android:name="com.decentapps.supre.photorecovery.datarecovery.ui.activity.FileInfoActivity"
             android:exported="false"
             android:theme="@style/AppThemeNoActionBar"/>
         <activity
-            android:name="com.recover.photo.ui.activity.VideoActivity"
+            android:name="com.decentapps.supre.photorecovery.datarecovery.ui.activity.VideoActivity"
             android:exported="false"
             android:theme="@style/AppThemeNoActionBar"/>
         <activity
-            android:name="com.recover.photo.ui.activity.AlbumVideoActivity"
+            android:name="com.decentapps.supre.photorecovery.datarecovery.ui.activity.AlbumVideoActivity"
             android:exported="false"
             android:theme="@style/AppThemeNoActionBar"/>
         <activity
-            android:name="com.recover.photo.ui.activity.PhotosActivity"
+            android:name="com.decentapps.supre.photorecovery.datarecovery.ui.activity.PhotosActivity"
             android:exported="false"
             android:theme="@style/AppThemeNoActionBar"/>
         <activity
-            android:name="com.recover.photo.ui.activity.AlbumPhotoActivity"
+            android:name="com.decentapps.supre.photorecovery.datarecovery.ui.activity.AlbumPhotoActivity"
             android:exported="false"
             android:theme="@style/AppThemeNoActionBar"/>
         <activity
-            android:name="com.recover.photo.ui.activity.RestoreResultActivity"
+            android:name="com.decentapps.supre.photorecovery.datarecovery.ui.activity.RestoreResultActivity"
             android:exported="false"
             android:theme="@style/AppThemeNoActionBar"/>
         <activity
-            android:name="com.recover.photo.ui.activity.AudioActivity"
+            android:name="com.decentapps.supre.photorecovery.datarecovery.ui.activity.AudioActivity"
             android:exported="false"
             android:theme="@style/AppThemeNoActionBar"/>
         <activity
-            android:name="com.recover.photo.ui.activity.NoFileActiviy"
+            android:name="com.decentapps.supre.photorecovery.datarecovery.ui.activity.NoFileActiviy"
             android:exported="false"
             android:theme="@style/AppThemeNoActionBar"/>
         <activity
-            android:name="com.recover.photo.ui.activity.ScanImagesActivty"
+            android:name="com.decentapps.supre.photorecovery.datarecovery.ui.activity.ScanImagesActivty"
             android:exported="false"
             android:theme="@style/AppThemeNoActionBar"/>
         <activity
-            android:name="com.recover.photo.ui.activity.ScannerActivity"
+            android:name="com.decentapps.supre.photorecovery.datarecovery.ui.activity.ScannerActivity"
             android:theme="@style/AppThemeNoActionBar" />
         <activity
-            android:name="com.recover.photo.ui.activity.MainActivity"
+            android:name="com.decentapps.supre.photorecovery.datarecovery.ui.activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBar" />
         <activity
-            android:name="com.recover.photo.ui.activity.RestoredScannerActivity"
+            android:name="com.decentapps.supre.photorecovery.datarecovery.ui.activity.RestoredScannerActivity"
             android:theme="@style/AppThemeNoActionBar" />
         <activity
-            android:name="com.recover.photo.ui.activity.HomeActivity"
+            android:name="com.decentapps.supre.photorecovery.datarecovery.ui.activity.HomeActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBar" />
         <activity
-            android:name="com.recover.photo.ui.activity.SplashScreen"
+            android:name="com.decentapps.supre.photorecovery.datarecovery.ui.activity.SplashScreen"
             android:exported="true"
             android:theme="@style/AppThemeNoActionBar">
             <intent-filter>
@@ -134,7 +134,7 @@
 
 
         <activity
-            android:name="com.recover.photo.ui.activity.AboutActivity"
+            android:name="com.decentapps.supre.photorecovery.datarecovery.ui.activity.AboutActivity"
             android:label="@string/title_activity_about"
             android:theme="@style/AppThemeNoActionBar"/>
 

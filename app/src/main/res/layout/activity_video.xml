@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.recover.photo.ui.activity.VideoActivity">
+    tools:context="com.decentapps.supre.photorecovery.datarecovery.ui.activity.VideoActivity">
     <include
         android:id="@+id/customToolbar"
         android:layout_width="match_parent"
