@@ -53,7 +53,7 @@
         android:id="@+id/next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Next"
+        android:text="Get Started"
         android:textStyle="bold"
         android:textSize="@dimen/_11ssp"
         app:layout_constraintTop_toTopOf="@+id/dots"
