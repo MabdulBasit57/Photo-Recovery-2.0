@@ -17,7 +17,7 @@
         <ImageView
             android:id="@+id/bg"
             android:src="@drawable/appicon"
-            android:layout_width="120dp"
+            android:layout_width="110dp"
             android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -26,22 +26,41 @@
             android:layout_gravity="center_horizontal"/>
         <TextView
             android:text="Super Data\nRecovery"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textStyle="bold"
             android:gravity="center"
-            android:paddingHorizontal="@dimen/_5sdp"
+            android:paddingHorizontal="@dimen/_8sdp"
             android:fontFamily="@font/roboto_medium"
             android:textColor="@color/black"
             android:layout_width="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/bg"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_15sdp"
             android:layout_height="wrap_content" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/scanLottie"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_above="@+id/loading"
+        android:layout_centerHorizontal="true"
+        app:lottie_rawRes="@raw/loader"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"/>
+    <TextView
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/rlOuter"
+        android:textColor="@color/black"
+        android:visibility="invisible"
+        android:text="This action may contain ad..."
+        android:layout_centerHorizontal="true"/>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rlOuter"
-        android:visibility="gone"
+        android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -65,9 +84,10 @@
 
             <TextView
                 android:id="@+id/tvPrivacyPolicy"
-                android:text="I have read and agree to the Privacy Policy"
                 android:layout_width="wrap_content"
-                android:textColor="#494848"
+                android:textColor="@color/black"
+                android:clickable="true"
+                android:focusable="true"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
@@ -76,7 +96,7 @@
             android:visibility="invisible"
             android:elevation="2dp"
             android:text="Get Started"
-            android:textColor="@color/appcolor"
+            android:textColor="@color/white"
             android:paddingHorizontal="@dimen/_15sdp"
             android:textAllCaps="false"
             android:layout_marginBottom="@dimen/_20sdp"
@@ -84,6 +104,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:background="@drawable/round_corner30"
+            android:backgroundTint="@color/status_highlight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

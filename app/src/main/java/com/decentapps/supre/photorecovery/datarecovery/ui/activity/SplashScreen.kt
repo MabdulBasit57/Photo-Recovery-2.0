@@ -1,14 +1,19 @@
 package com.decentapps.supre.photorecovery.datarecovery.ui.activity
 
 import android.content.Intent
+import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.preference.PreferenceManager
 import android.text.Html
 import android.text.Spannable
+import android.text.SpannableString
+import android.text.Spanned
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.text.style.URLSpan
 import android.text.style.UnderlineSpan
 import android.view.View
@@ -17,12 +22,14 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import com.decentapps.supre.photorecovery.datarecovery.BuildConfig
 import com.google.android.gms.ads.MobileAds
 //import com.google.android.gms.ads.MobileAds
 import com.decentapps.supre.photorecovery.datarecovery.R
 import com.decentapps.supre.photorecovery.datarecovery.ui.onboarding.OnboardingActivity
 import com.decentapps.supre.photorecovery.datarecovery.utils.AdUtils
+import com.decentapps.supre.photorecovery.datarecovery.utils.AppUtils.privacypolicy
 import com.decentapps.supre.photorecovery.datarecovery.utils.SharedPrefHelper
 import com.decentapps.supre.photorecovery.datarecovery.utils.Utils
 import java.util.concurrent.atomic.AtomicBoolean
@@ -80,29 +87,12 @@ class SplashScreen : AppCompatActivity() {
             rlOuter?.visibility=View.INVISIBLE
             handler.postDelayed({
                 showOpenAd()
-            }, 3000)
+            }, 5000)
 
         } else {
-            agreementLayout.visibility=View.VISIBLE
-            val txtTermsCondition =
-                resources.getString(R.string.i_have_read_and_agree) + " <a href='" + resources.getString(
-                    R.string.url_privacy
-                ) + "'</a>" + resources.getString(R.string.privacy_policy)
-            tvPrivacyPolicy?.setLinkTextColor(resources.getColor(R.color.colorContent))
-
-
-            val s = Html.fromHtml(txtTermsCondition) as Spannable
-            for (u in s.getSpans(0, s.length, URLSpan::class.java)) {
-                s.setSpan(object : UnderlineSpan() {
-                    override fun updateDrawState(tp: TextPaint) {
-                        tp.isUnderlineText = false
-                    }
-                }, s.getSpanStart(u), s.getSpanEnd(u), 0)
-            }
-            tvPrivacyPolicy?.text = s
-
-            //        tvTerms.setText(Html.fromHtml(txtTermsCondition));
-            tvPrivacyPolicy?.movementMethod = LinkMovementMethod.getInstance()
+            Handler(Looper.getMainLooper()).postDelayed({
+                agreementLayout.visibility = View.VISIBLE
+            }, 3000)
         }
     }
 
@@ -111,6 +101,26 @@ class SplashScreen : AppCompatActivity() {
         cbAgree = findViewById(R.id.cbAgree)
         tvPrivacyPolicy = findViewById(R.id.tvPrivacyPolicy)
         btnAgree = findViewById(R.id.btnAgree)
+        val fullText = getString(R.string.i_have_read_and_agree) + " " + getString(R.string.privacy_policy)
+        val spannable = SpannableString(fullText)
+
+        val start = fullText.indexOf(getString(R.string.privacy_policy))
+        val end = start + getString(R.string.privacy_policy).length
+
+        spannable.setSpan(object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                privacypolicy(this@SplashScreen)
+            }
+
+            override fun updateDrawState(ds: TextPaint) {
+                ds.isUnderlineText = true
+                ds.color = ContextCompat.getColor(this@SplashScreen, R.color.colorBlue)
+            }
+        }, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        tvPrivacyPolicy?.text = spannable
+        tvPrivacyPolicy?.movementMethod = LinkMovementMethod.getInstance()
+        tvPrivacyPolicy?.highlightColor = Color.TRANSPARENT
     }
 
     private fun listeners() {
@@ -134,15 +144,15 @@ class SplashScreen : AppCompatActivity() {
             rlOuter?.visibility=View.INVISIBLE
             handler.postDelayed({
                 showOpenAd()
-            }, 3000)
+            }, 300)
         }
     }
     private fun showOpenAd(){
         if(SharedPrefHelper.isFirstTime(this)){
-                   Handler(Looper.getMainLooper()).postDelayed({
+//                   Handler(Looper.getMainLooper()).postDelayed({
                        startActivity(Intent(this@SplashScreen, OnboardingActivity::class.java))
                        finish()
-          }, 2500)
+//          }, 2500)
 
         }
         else{
