@@ -27,6 +27,7 @@ import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.decentapps.supre.photorecovery.datarecovery.BuildConfig
 import com.google.android.ump.ConsentInformation
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -35,6 +36,7 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.decentapps.supre.photorecovery.datarecovery.R
 import com.decentapps.supre.photorecovery.datarecovery.databinding.ActivityMainBinding
+import com.decentapps.supre.photorecovery.datarecovery.utils.AdUtils
 import com.decentapps.supre.photorecovery.datarecovery.utils.AppUtils.filter
 import com.decentapps.supre.photorecovery.datarecovery.utils.Utils
 import com.decentapps.supre.photorecovery.datarecovery.utils.percentage
@@ -73,6 +75,8 @@ class MainActivity : AppCompatActivity(){
         setContentView(binding.root)
         // Initialize views
 //        navigationDrawer()
+        AdUtils.requestHomeInterstitialAd(this, BuildConfig.home_interstitial)
+
         getStorage()
         sharedPreferencesAudio = getSharedPreferences(prefAudio, MODE_PRIVATE)
         sharedPreferencesVideo = getSharedPreferences(prefVideo, MODE_PRIVATE)
@@ -352,25 +356,32 @@ class MainActivity : AppCompatActivity(){
             if (isReadMediaVideoPermissionGranted &&
                 isReadMediaAudioPermissionGranted && isReadMediaImagesPermissionGranted
             ) {
-                val intent = Intent(this, ScanImagesActivty::class.java)
-                intent.putExtra("position", pos)
-                startActivity(intent)
+                AdUtils.showHomeInterstitialAd(this){
+                    val intent = Intent(this, ScanImagesActivty::class.java)
+                    intent.putExtra("position", pos)
+                    startActivity(intent)
+                }
+
             } else {
                 showPermissionDeniedToast()
             }
         } else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.R) {
             if (isReadExternalPermissionGranted) {
-                val intent = Intent(this, ScanImagesActivty::class.java)
-                intent.putExtra("position", pos)
-                startActivity(intent)
+                AdUtils.showHomeInterstitialAd(this) {
+                    val intent = Intent(this, ScanImagesActivty::class.java)
+                    intent.putExtra("position", pos)
+                    startActivity(intent)
+                }
             } else {
                 showPermissionDeniedToast()
             }
         } else {
             if (isWriteExternalPermissionGranted && isReadExternalPermissionGranted) {
-                val intent = Intent(this, ScanImagesActivty::class.java)
-                intent.putExtra("position", pos)
-                startActivity(intent)
+                AdUtils.showHomeInterstitialAd(this) {
+                    val intent = Intent(this, ScanImagesActivty::class.java)
+                    intent.putExtra("position", pos)
+                    startActivity(intent)
+                }
             } else {
                 showPermissionDeniedToast()
             }

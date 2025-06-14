@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.decentapps.supre.photorecovery.datarecovery.R
 import com.decentapps.supre.photorecovery.datarecovery.ui.activity.ViewRecoveredImages
 import com.decentapps.supre.photorecovery.datarecovery.ui.adapter.RecoveredFileAdapter
+import com.decentapps.supre.photorecovery.datarecovery.utils.AdUtils
 import com.decentapps.supre.photorecovery.datarecovery.utils.Utils
 import java.io.File
 
@@ -63,11 +64,13 @@ class ImageFragment : Fragment() {
     }
 
     private fun begin(position: Int) {
-        val files = getAllFiles()
-        val intent = Intent(requireContext(), ViewRecoveredImages::class.java).apply {
-            putExtra("position", position)
-            putExtra("files", files as ArrayList)
+        AdUtils.showHomeInterstitialAd(requireActivity()) {
+            val files = getAllFiles()
+            val intent = Intent(requireContext(), ViewRecoveredImages::class.java).apply {
+                putExtra("position", position)
+                putExtra("files", files as ArrayList)
+            }
+            startActivity(intent)
         }
-        startActivity(intent)
     }
 }

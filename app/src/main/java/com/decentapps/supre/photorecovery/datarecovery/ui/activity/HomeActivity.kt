@@ -25,6 +25,7 @@ import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.decentapps.supre.photorecovery.datarecovery.BuildConfig
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -32,6 +33,8 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.decentapps.supre.photorecovery.datarecovery.R
 import com.decentapps.supre.photorecovery.datarecovery.databinding.ActivityHomeBinding
+import com.decentapps.supre.photorecovery.datarecovery.utils.AdUtils
+import com.decentapps.supre.photorecovery.datarecovery.utils.AdUtils.requestHomeInterstitialAd
 import com.decentapps.supre.photorecovery.datarecovery.utils.Utils
 import com.decentapps.supre.photorecovery.datarecovery.utils.percentage
 import com.decentapps.supre.photorecovery.datarecovery.utils.storageValue
@@ -51,6 +54,7 @@ class HomeActivity :AppCompatActivity(){
         getStorage()
         checkPermissions()
         clickListener()
+        requestHomeInterstitialAd(this,BuildConfig.home_interstitial)
         binding.customToolbar.backToolbar.setOnClickListener {
             onBackPressed()
         }
@@ -324,19 +328,25 @@ class HomeActivity :AppCompatActivity(){
             if (isReadMediaVideoPermissionGranted &&
                 isReadMediaAudioPermissionGranted && isReadMediaImagesPermissionGranted
             ) {
-                startActivity(Intent(this, activity))
+                AdUtils.showHomeInterstitialAd(this){
+                    startActivity(Intent(this, activity))
+                }
             } else {
                 showPermissionDeniedToast()
             }
         } else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.R) {
             if (isReadExternalPermissionGranted) {
-                startActivity(Intent(this, activity))
+                AdUtils.showHomeInterstitialAd(this){
+                    startActivity(Intent(this, activity))
+                }
             } else {
                 showPermissionDeniedToast()
             }
         } else {
             if (isWriteExternalPermissionGranted && isReadExternalPermissionGranted) {
-                startActivity(Intent(this, activity))
+                AdUtils.showHomeInterstitialAd(this){
+                    startActivity(Intent(this, activity))
+                }
             } else {
                 showPermissionDeniedToast()
             }

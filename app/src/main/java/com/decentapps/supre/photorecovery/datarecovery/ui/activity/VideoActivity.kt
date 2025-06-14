@@ -27,6 +27,7 @@ import com.decentapps.supre.photorecovery.datarecovery.databinding.ActivityPhoto
 import com.decentapps.supre.photorecovery.datarecovery.pj.VideoModel
 import com.decentapps.supre.photorecovery.datarecovery.tasks.RecoverVideoAsyncTask
 import com.decentapps.supre.photorecovery.datarecovery.tasks.RecoverVideoWorker
+import com.decentapps.supre.photorecovery.datarecovery.utils.AdUtils
 import com.decentapps.supre.photorecovery.datarecovery.utils.RecoverUtils
 import java.io.File
 
@@ -205,13 +206,15 @@ class VideoActivity : AppCompatActivity() {
     }
     private val recoveryCompleteReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            val count = intent?.getIntExtra("value", 0) ?: 0
-            val type = intent?.getIntExtra("type", 1) ?: 1
+            AdUtils.showHomeInterstitialAd(this@VideoActivity) {
+                val count = intent?.getIntExtra("value", 0) ?: 0
+                val type = intent?.getIntExtra("type", 1) ?: 1
 
-            val goIntent = Intent(this@VideoActivity, RecoveredVideosActivity::class.java)
-            goIntent.putExtra("value", count)
-            goIntent.putExtra("type", type)
-            startActivity(goIntent)
+                val goIntent = Intent(this@VideoActivity, RecoveredVideosActivity::class.java)
+                goIntent.putExtra("value", count)
+                goIntent.putExtra("type", type)
+                startActivity(goIntent)
+            }
         }
     }
     override fun onResume() {

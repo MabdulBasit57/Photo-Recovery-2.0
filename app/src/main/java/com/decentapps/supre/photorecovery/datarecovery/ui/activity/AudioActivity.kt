@@ -20,6 +20,7 @@ import com.decentapps.supre.photorecovery.datarecovery.adapter.AudioAdapter
 import com.decentapps.supre.photorecovery.datarecovery.databinding.ActivityAudioBinding
 import com.decentapps.supre.photorecovery.datarecovery.pj.AudioModel
 import com.decentapps.supre.photorecovery.datarecovery.tasks.RecoverAudioAsyncTask
+import com.decentapps.supre.photorecovery.datarecovery.utils.AdUtils
 
 class AudioActivity : AppCompatActivity() {
     private val binding by lazy { ActivityAudioBinding.inflate(layoutInflater) }
@@ -99,26 +100,30 @@ class AudioActivity : AppCompatActivity() {
                     @SuppressLint("NotifyDataSetChanged")
                     override fun onComplete(str: String?) {
                         if (str!!.isEmpty()) {
-                            val intent = Intent(
-                                this@AudioActivity.applicationContext,
-                                RecoveredAudiosActivity::class.java
-                            )
-                            intent.putExtra("value", arrayList.size)
-                            intent.putExtra("type", 2)
-                            this@AudioActivity.startActivity(intent)
+                            AdUtils.showHomeInterstitialAd(this@AudioActivity) {
+                                val intent = Intent(
+                                    this@AudioActivity.applicationContext,
+                                    RecoveredAudiosActivity::class.java
+                                )
+                                intent.putExtra("value", arrayList.size)
+                                intent.putExtra("type", 2)
+                                this@AudioActivity.startActivity(intent)
+                            }
                         } else if (str == "Er1") {
-                            val audioActivity = this@AudioActivity
-                            Toast.makeText(
-                                audioActivity,
-                                audioActivity.getString(R.string.FileDeletedBeforeScan),
-                                Toast.LENGTH_LONG
-                            ).show()
-                            val intent2 = Intent(
-                                this@AudioActivity.applicationContext,
-                                ScanImagesActivty::class.java
-                            )
-                            intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                            this@AudioActivity.startActivity(intent2)
+                            AdUtils.showHomeInterstitialAd(this@AudioActivity) {
+                                val audioActivity = this@AudioActivity
+                                Toast.makeText(
+                                    audioActivity,
+                                    audioActivity.getString(R.string.FileDeletedBeforeScan),
+                                    Toast.LENGTH_LONG
+                                ).show()
+                                val intent2 = Intent(
+                                    this@AudioActivity.applicationContext,
+                                    ScanImagesActivty::class.java
+                                )
+                                intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                this@AudioActivity.startActivity(intent2)
+                            }
                         }
                         adapter?.setAllImagesUnseleted()
                         adapter?.notifyDataSetChanged()

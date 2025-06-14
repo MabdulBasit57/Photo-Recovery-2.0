@@ -162,6 +162,7 @@
 <!--    <string name="fb_init">305308904850118_305321131515562</string>-->
     <string name="storage_details">Storage</string>
     <string name="notification">Notification</string>
+    <string name="this_may_contain_ad_nplease_wait">This may contain ad...\nPlease wait</string>
 
     <!--    <string name="fb_banner">305308904850118_305320841515591</string>-->
 

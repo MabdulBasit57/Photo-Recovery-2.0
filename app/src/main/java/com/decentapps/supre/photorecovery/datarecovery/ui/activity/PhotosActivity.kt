@@ -22,6 +22,7 @@ import com.decentapps.supre.photorecovery.datarecovery.adapter.PhotoAdapter
 import com.decentapps.supre.photorecovery.datarecovery.databinding.ActivityPhotosBinding
 import com.decentapps.supre.photorecovery.datarecovery.pj.PhotoModel
 import com.decentapps.supre.photorecovery.datarecovery.tasks.RecoverPhotosAsyncTask
+import com.decentapps.supre.photorecovery.datarecovery.utils.AdUtils
 import java.io.File
 
 class PhotosActivity : AppCompatActivity() {
@@ -241,26 +242,30 @@ class PhotosActivity : AppCompatActivity() {
                 it, object : RecoverPhotosAsyncTask.OnRestoreListener {
                     override fun onComplete(str: String?) {
                         if (str?.isEmpty() == true) {
-                            val intent = Intent(
-                                this@PhotosActivity.applicationContext,
-                                RecoveredImagesActivity::class.java
-                            )
-                            intent.putExtra("value", arrayList.size)
-                            intent.putExtra("type", 0)
-                            this@PhotosActivity.startActivity(intent)
+                            AdUtils.showHomeInterstitialAd(this@PhotosActivity){
+                                val intent = Intent(
+                                    this@PhotosActivity.applicationContext,
+                                    RecoveredImagesActivity::class.java
+                                )
+                                intent.putExtra("value", arrayList.size)
+                                intent.putExtra("type", 0)
+                                this@PhotosActivity.startActivity(intent)
+                            }
                         } else if (str == "Er1") {
-                            val photosActivity = this@PhotosActivity
-                            Toast.makeText(
-                                photosActivity,
-                                photosActivity.getString(R.string.FileDeletedBeforeScan),
-                                Toast.LENGTH_LONG
-                            ).show()
-                            val intent2 = Intent(
-                                this@PhotosActivity.applicationContext,
-                                ScanImagesActivty::class.java
-                            )
-                            intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                            this@PhotosActivity.startActivity(intent2)
+                            AdUtils.showHomeInterstitialAd(this@PhotosActivity){
+                                val photosActivity = this@PhotosActivity
+                                Toast.makeText(
+                                    photosActivity,
+                                    photosActivity.getString(R.string.FileDeletedBeforeScan),
+                                    Toast.LENGTH_LONG
+                                ).show()
+                                val intent2 = Intent(
+                                    this@PhotosActivity.applicationContext,
+                                    ScanImagesActivty::class.java
+                                )
+                                intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                this@PhotosActivity.startActivity(intent2)
+                            }
                         }
                         adapter?.setAllImagesUnseleted()
                         adapter?.notifyDataSetChanged()

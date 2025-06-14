@@ -1,10 +1,14 @@
 package com.decentapps.supre.photorecovery.datarecovery.utils
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
+import android.view.LayoutInflater
 import com.decentapps.supre.photorecovery.datarecovery.BuildConfig
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
@@ -37,6 +41,20 @@ object AdUtils {
     var homeInterstitialAd: InterstitialAd? = null
     var secondRequest=false
     var secondRequestHome=false
+    private var adLoadingDialog: Dialog? = null
+    fun showAdLoadingDialog(activity: Activity) {
+        if (adLoadingDialog?.isShowing == true) return
+        val dialogView = LayoutInflater.from(activity).inflate(R.layout.ad_dialog, null)
+        adLoadingDialog = Dialog(activity, android.R.style.Theme_Black_NoTitleBar_Fullscreen).apply {
+            setContentView(dialogView)
+            setCancelable(false)
+            show()
+        }
+    }
+    fun dismissAdLoadingDialog() {
+        adLoadingDialog?.dismiss()
+        adLoadingDialog = null
+    }
     fun isInternetAvailable(context: Context): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
@@ -81,7 +99,7 @@ object AdUtils {
             override fun onAdLoaded(ad: InterstitialAd) {
                 homeInterstitialAd = ad
                 secondRequestHome=false
-                Log.d("Admob", "Interstitial ad loaded.")
+                Log.w("Admob", "Interstitial ad loaded Home.")
             }
 
             override fun onAdFailedToLoad(adError: LoadAdError) {
@@ -90,17 +108,19 @@ object AdUtils {
                     requestHomeInterstitialAd(context, adUnitId)
                     secondRequestHome=true
                 }
-                Log.e("Admob", "Failed to load interstitial ad: ${adError.message}")
+                Log.e("Admob", "Failed to load interstitial ad Home: ${adError.message}")
             }
         })
     }
 
     fun showSplashInterstitialAd(activity: Activity, onAdFinished: () -> Unit) {
         if (splashInterstitialAd != null) {
+            showAdLoadingDialog(activity)
             splashInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                 override fun onAdDismissedFullScreenContent() {
                     Log.d("Admob", "Ad was dismissed.")
                     splashInterstitialAd = null
+                    dismissAdLoadingDialog()
                 }
                 override fun onAdFailedToShowFullScreenContent(adError: AdError) {
                     Log.e("Admob", "Ad failed to show.")
@@ -112,35 +132,45 @@ object AdUtils {
                     Log.d("Admob", "Ad showed fullscreen content.")
                 }
             }
-            onAdFinished()
-            splashInterstitialAd?.show(activity)
+
+//            Handler(Looper.getMainLooper()).postDelayed({
+                onAdFinished()
+                splashInterstitialAd?.show(activity)
+//                dismissAdLoadingDialog()
+//            },1500)
+
         } else {
             Log.d("Admob", "Ad is not ready.")
             onAdFinished()
         }
     }
     fun showHomeInterstitialAd(activity: Activity, onAdFinished: () -> Unit) {
-        if (splashInterstitialAd != null) {
-            splashInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
+        if (homeInterstitialAd != null) {
+            showAdLoadingDialog(activity)
+            homeInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                 override fun onAdDismissedFullScreenContent() {
                     Log.d("Admob", "Ad was dismissed.")
-                    splashInterstitialAd = null
+                    homeInterstitialAd = null
+                    dismissAdLoadingDialog()
                 }
                 override fun onAdFailedToShowFullScreenContent(adError: AdError) {
-                    Log.e("Admob", "Ad failed to show.")
-                    splashInterstitialAd = null
+                    Log.e("Admob", "Ad failed to show Home.")
+                    homeInterstitialAd = null
                     onAdFinished()
                 }
-
                 override fun onAdShowedFullScreenContent() {
                     Log.d("Admob", "Ad showed fullscreen content.")
                 }
             }
-            onAdFinished()
-            splashInterstitialAd?.show(activity)
+
+//            Handler(Looper.getMainLooper()).postDelayed({
+                onAdFinished()
+                homeInterstitialAd?.show(activity)
+//                dismissAdLoadingDialog()
+//            },1500)
         } else {
             requestHomeInterstitialAd(activity as Context,BuildConfig.home_interstitial)
-            Log.d("Admob", "Ad is not ready.")
+            Log.e("Admob", "Ad is not ready.")
             onAdFinished()
         }
     }
