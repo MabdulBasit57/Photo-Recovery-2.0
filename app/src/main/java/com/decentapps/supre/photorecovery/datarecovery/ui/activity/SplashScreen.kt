@@ -32,6 +32,7 @@ import com.decentapps.supre.photorecovery.datarecovery.utils.AdUtils
 import com.decentapps.supre.photorecovery.datarecovery.utils.AppUtils.privacypolicy
 import com.decentapps.supre.photorecovery.datarecovery.utils.SharedPrefHelper
 import com.decentapps.supre.photorecovery.datarecovery.utils.Utils
+import com.decentapps.supre.photorecovery.datarecovery.utils.splashAdLoaded
 import java.util.concurrent.atomic.AtomicBoolean
 
 class SplashScreen : AppCompatActivity() {
@@ -142,35 +143,39 @@ class SplashScreen : AppCompatActivity() {
             editor.commit()
             agreementLayout.visibility=View.INVISIBLE
             rlOuter?.visibility=View.INVISIBLE
-            handler.postDelayed({
-                showOpenAd()
-            }, 300)
+            showOpenAd()
         }
     }
     private fun showOpenAd(){
-        if(SharedPrefHelper.isFirstTime(this)){
-//                   Handler(Looper.getMainLooper()).postDelayed({
-                       startActivity(Intent(this@SplashScreen, OnboardingActivity::class.java))
-                       finish()
-//          }, 2500)
-
+        if(AdUtils.splashInterstitialAd!=null){
+            navigateToNext()
         }
         else{
-     /*       Handler(Looper.getMainLooper()).postDelayed({
-
-            }, 5000)*/
-            startActivity(Intent(this@SplashScreen, HomeActivity::class.java))
-            finish()
-        }
-     /*   (application as MyApplication).showAdIfAvailable(
-            this@SplashScreen,
-            object : MyApplication.OnShowAdCompleteListener {
-                override fun onShowAdComplete() {
-                    startActivity(Intent(this@SplashScreen, MainActivity::class.java))
-                    finish()
+            if(AdUtils.isInternetAvailable(this)){
+                AdUtils.requestSplashInterstitialAd(this)
+                splashAdLoaded?.observe(this){
+                    if(it==true){
+                       navigateToNext()
+                    }
                 }
             }
-        )*/
+            else{
+               navigateToNext()
+            }
+        }
+    }
+    fun navigateToNext(){
+        AdUtils.showSplashInterstitialAd(this){
+            if(SharedPrefHelper.isFirstTime(this)){
+                startActivity(Intent(this@SplashScreen, OnboardingActivity::class.java))
+                finish()
+
+            }
+            else{
+                startActivity(Intent(this@SplashScreen, HomeActivity::class.java))
+                finish()
+            }
+        }
     }
 
 }

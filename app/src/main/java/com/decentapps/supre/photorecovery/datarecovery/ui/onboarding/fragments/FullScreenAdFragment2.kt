@@ -57,6 +57,7 @@ class FullScreenAdFragment2 : Fragment() {
                 val adView = inflater.inflate(R.layout.fullscreen_native, null) as NativeAdView
                 // Set views
                 adView.mediaView = adView.findViewById(R.id.ad_media)
+                adView.mediaView?.mediaContent = nativeAd.mediaContent
                 adView.headlineView = adView.findViewById(R.id.ad_headline)
                 adView.bodyView = adView.findViewById(R.id.ad_body)
                 adView.callToActionView = adView.findViewById(R.id.ad_call_to_action)

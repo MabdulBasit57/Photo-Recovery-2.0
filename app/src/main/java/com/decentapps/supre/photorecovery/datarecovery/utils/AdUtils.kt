@@ -2,6 +2,8 @@ package com.decentapps.supre.photorecovery.datarecovery.utils
 
 import android.app.Activity
 import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.util.Log
 import com.decentapps.supre.photorecovery.datarecovery.BuildConfig
 import com.google.android.gms.ads.AdListener
@@ -35,6 +37,14 @@ object AdUtils {
     var homeInterstitialAd: InterstitialAd? = null
     var secondRequest=false
     var secondRequestHome=false
+    fun isInternetAvailable(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        val network = connectivityManager.activeNetwork ?: return false
+        val capabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
+
+        return capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+    }
 
     fun requestSplashInterstitialAd(context: Context) {
 
@@ -44,6 +54,7 @@ object AdUtils {
         InterstitialAd.load(context, BuildConfig.splash_interstitial, adRequest, object : InterstitialAdLoadCallback() {
             override fun onAdLoaded(ad: InterstitialAd) {
                 splashInterstitialAd = ad
+                splashAdLoaded?.postValue(true)
                 secondRequest=false
                 Log.d("Admob", "Interstitial ad loaded.")
             }
@@ -53,6 +64,9 @@ object AdUtils {
                 if(!secondRequest) {
                     requestSplashInterstitialAd(context)
                     secondRequest=true
+                }
+                else{
+                    splashAdLoaded?.postValue(true)
                 }
                 Log.e("Admob", "Failed to load interstitial ad: ${adError.message}")
             }
