@@ -80,7 +80,6 @@ class MainActivity : AppCompatActivity(){
         getStorage()
         sharedPreferencesAudio = getSharedPreferences(prefAudio, MODE_PRIVATE)
         sharedPreferencesVideo = getSharedPreferences(prefVideo, MODE_PRIVATE)
-        Utils.isAdAlreadyOpen = true
 
         isUnlockAudio = sharedPreferencesAudio?.getBoolean(prefAudio, false) == true
         isUnlockVideo = sharedPreferencesVideo?.getBoolean(prefVideo, false) == true

@@ -8,30 +8,31 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.multidex.MultiDexApplication
+import com.decentapps.supre.photorecovery.datarecovery.BuildConfig
 import com.google.android.gms.ads.MobileAds
-/*import com.google.android.gms.ads.AdError
+import com.decentapps.supre.photorecovery.datarecovery.utils.Utils
+import com.decentapps.supre.photorecovery.datarecovery.utils.Utils.isAdAlreadyOpen
+import com.decentapps.supre.photorecovery.datarecovery.utils.openAdImpression
+import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
-import com.google.android.gms.ads.appopen.AppOpenAd*/
-import com.decentapps.supre.photorecovery.datarecovery.utils.Utils
-import com.decentapps.supre.photorecovery.datarecovery.utils.openAdImpression
+import com.google.android.gms.ads.appopen.AppOpenAd
 import java.net.CookieHandler
 import java.net.CookieManager
 import java.net.CookiePolicy
 import java.util.Date
-//private val AD_UNIT_ID = "ca-app-pub-7853241901786470/7573958096"
 
 class MyApplication : MultiDexApplication(), Application.ActivityLifecycleCallbacks,
     DefaultLifecycleObserver {
-//    private lateinit var appOpenAdManager: AppOpenAdManager
+    private lateinit var appOpenAdManager: AppOpenAdManager
     private var currentActivity: Activity? = null
 
     override fun onCreate() {
         super<MultiDexApplication>.onCreate()
         registerActivityLifecycleCallbacks(this@MyApplication)
         ProcessLifecycleOwner.get().lifecycle.addObserver(this@MyApplication)
-//        appOpenAdManager = AppOpenAdManager()
+        appOpenAdManager = AppOpenAdManager()
         openAdImpression?.postValue(false)
         CookieHandler.setDefault(CookieManager(null, CookiePolicy.ACCEPT_ALL))
         MobileAds.initialize(this)
@@ -44,7 +45,7 @@ class MyApplication : MultiDexApplication(), Application.ActivityLifecycleCallba
         super.onStart(owner)
         currentActivity?.let {
             // Show the ad (if available) when the app moves to foreground.
-//            appOpenAdManager.showAdIfAvailable(it)
+            appOpenAdManager.showAdIfAvailable(it)
         }
     }
 
@@ -56,7 +57,7 @@ class MyApplication : MultiDexApplication(), Application.ActivityLifecycleCallba
         // SDK or another activity class implemented by a third party mediation partner. Updating the
         // currentActivity only when an ad is not showing will ensure it is not an ad activity, but the
         // one that shows the ad.
-        if (!Utils.isShowingAd) {
+        if (!Utils.isShowingAd && !isAdAlreadyOpen) {
             currentActivity = activity
         }
     }
@@ -80,7 +81,7 @@ class MyApplication : MultiDexApplication(), Application.ActivityLifecycleCallba
     fun showAdIfAvailable(activity: Activity, onShowAdCompleteListener: OnShowAdCompleteListener) {
         // We wrap the showAdIfAvailable to enforce that other classes only interact with MyApplication
         // class.
-//        appOpenAdManager.showAdIfAvailable(activity, onShowAdCompleteListener)
+        showAdIfAvailable(activity, onShowAdCompleteListener)
     }
 
     /**
@@ -91,7 +92,7 @@ class MyApplication : MultiDexApplication(), Application.ActivityLifecycleCallba
     fun loadAd(activity: Activity) {
         // We wrap the loadAd to enforce that other classes only interact with MyApplication
         // class.
-//        appOpenAdManager.loadAd(activity)
+        loadAd(activity)
     }
 
     /**
@@ -104,7 +105,7 @@ class MyApplication : MultiDexApplication(), Application.ActivityLifecycleCallba
 
     /** Inner class that loads and shows app open ads. */
     private inner class AppOpenAdManager {
-//        private var appOpenAd: AppOpenAd? = null
+        private var appOpenAd: AppOpenAd? = null
         private var isLoadingAd = false
 
 
@@ -118,7 +119,7 @@ class MyApplication : MultiDexApplication(), Application.ActivityLifecycleCallba
          */
         fun loadAd(context: Context) {
             // Do not load ad if there is an unused ad or one is already loading.
-       /*     if (isLoadingAd || isAdAvailable()) {
+            if (isLoadingAd || isAdAvailable()) {
                 return
             }
 
@@ -126,14 +127,15 @@ class MyApplication : MultiDexApplication(), Application.ActivityLifecycleCallba
             val request = AdRequest.Builder().build()
             AppOpenAd.load(
                 context,
-                AD_UNIT_ID,
+                BuildConfig.open_ad,
                 request,
                 object : AppOpenAd.AppOpenAdLoadCallback() {
-                    *//**
+
+            /**
                      * Called when an app open ad has loaded.
                      *
                      * @param ad the loaded app open ad.
-                     *//*
+                     */
                     override fun onAdLoaded(ad: AppOpenAd) {
                         appOpenAd = ad
                         isLoadingAd = false
@@ -142,18 +144,18 @@ class MyApplication : MultiDexApplication(), Application.ActivityLifecycleCallba
 //                        Toast.makeText(context, "onAdLoaded", Toast.LENGTH_SHORT).show()
                     }
 
-                    *//**
+            /**
                      * Called when an app open ad has failed to load.
                      *
                      * @param loadAdError the error.
-                     *//*
+                     */
                     override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                         isLoadingAd = false
 //                        Log.d(LOG_TAG, "onAdFailedToLoad: " + loadAdError.message)
 //                        Toast.makeText(context, "onAdFailedToLoad", Toast.LENGTH_SHORT).show()
                     }
                 },
-            )*/
+            )
         }
 
         /** Check if ad was loaded more than n hours ago. */
@@ -168,7 +170,7 @@ class MyApplication : MultiDexApplication(), Application.ActivityLifecycleCallba
             // Ad references in the app open beta will time out after four hours, but this time limit
             // may change in future beta versions. For details, see:
             // https://support.google.com/admob/answer/9341964?hl=en
-            return false/*appOpenAd != null && wasLoadTimeLessThanNHoursAgo(4)*/
+            return appOpenAd != null && wasLoadTimeLessThanNHoursAgo(4)
         }
 
         /**
@@ -195,7 +197,7 @@ class MyApplication : MultiDexApplication(), Application.ActivityLifecycleCallba
          */
         fun showAdIfAvailable(activity: Activity, onShowAdCompleteListener: OnShowAdCompleteListener) {
             // If the app open ad is already showing, do not show the ad again.
-            if (Utils.isShowingAd) {
+            if (Utils.isShowingAd  || isAdAlreadyOpen) {
                 return
             }
 
@@ -205,10 +207,9 @@ class MyApplication : MultiDexApplication(), Application.ActivityLifecycleCallba
                 loadAd(activity)
                 return
             }
-/*
             appOpenAd?.fullScreenContentCallback =
                 object : FullScreenContentCallback() {
-                    *//** Called when full screen content is dismissed. *//*
+            /** Called when full screen content is dismissed. */
                     override fun onAdDismissedFullScreenContent() {
                         // Set the reference to null so isAdAvailable() returns false.
                         appOpenAd = null
@@ -217,7 +218,7 @@ class MyApplication : MultiDexApplication(), Application.ActivityLifecycleCallba
                             loadAd(activity)
                     }
 
-                    *//** Called when fullscreen content failed to show. *//*
+            /** Called when fullscreen content failed to show. */
                     override fun onAdFailedToShowFullScreenContent(adError: AdError) {
                         appOpenAd = null
                         Utils.isShowingAd = false
@@ -226,12 +227,12 @@ class MyApplication : MultiDexApplication(), Application.ActivityLifecycleCallba
 
                     }
 
-                    *//** Called when fullscreen content is shown. *//*
+            /** Called when fullscreen content is shown. */
                     override fun onAdShowedFullScreenContent() {
                     }
                 }
             Utils.isShowingAd = true
-            appOpenAd?.show(activity)*/
+            appOpenAd?.show(activity)
         }
     }
 }

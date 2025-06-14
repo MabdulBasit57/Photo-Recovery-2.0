@@ -16,6 +16,7 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.nativead.NativeAd
 import com.decentapps.supre.photorecovery.datarecovery.R
+import com.decentapps.supre.photorecovery.datarecovery.utils.Utils.isAdAlreadyOpen
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.interstitial.InterstitialAd
@@ -116,16 +117,19 @@ object AdUtils {
     fun showSplashInterstitialAd(activity: Activity, onAdFinished: () -> Unit) {
         if (splashInterstitialAd != null) {
             showAdLoadingDialog(activity)
+            isAdAlreadyOpen=true
             splashInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                 override fun onAdDismissedFullScreenContent() {
                     Log.d("Admob", "Ad was dismissed.")
                     splashInterstitialAd = null
                     dismissAdLoadingDialog()
+                    isAdAlreadyOpen=false
                 }
                 override fun onAdFailedToShowFullScreenContent(adError: AdError) {
                     Log.e("Admob", "Ad failed to show.")
                     splashInterstitialAd = null
                     onAdFinished()
+                    isAdAlreadyOpen=false
                 }
 
                 override fun onAdShowedFullScreenContent() {
@@ -147,16 +151,19 @@ object AdUtils {
     fun showHomeInterstitialAd(activity: Activity, onAdFinished: () -> Unit) {
         if (homeInterstitialAd != null) {
             showAdLoadingDialog(activity)
+            isAdAlreadyOpen=true
             homeInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                 override fun onAdDismissedFullScreenContent() {
                     Log.d("Admob", "Ad was dismissed.")
                     homeInterstitialAd = null
                     dismissAdLoadingDialog()
+                    isAdAlreadyOpen=false
                 }
                 override fun onAdFailedToShowFullScreenContent(adError: AdError) {
                     Log.e("Admob", "Ad failed to show Home.")
                     homeInterstitialAd = null
                     onAdFinished()
+                    isAdAlreadyOpen=false
                 }
                 override fun onAdShowedFullScreenContent() {
                     Log.d("Admob", "Ad showed fullscreen content.")
