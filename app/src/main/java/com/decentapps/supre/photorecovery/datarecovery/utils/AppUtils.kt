@@ -27,7 +27,7 @@ object AppUtils {
     }
     fun privacypolicy(activity: Activity){
         try {
-            val url = "https://docs.google.com"
+            val url = "https://mimitechnologiesofficial.blogspot.com/2021/11/updated-on-26th-november-2021-mimi.html?m=1"
             val i = Intent(Intent.ACTION_VIEW)
             i.data = Uri.parse(url)
             activity.startActivity(i)
@@ -36,7 +36,7 @@ object AppUtils {
         }
     }
      fun moreApps(context: Context) {
-        val developerId = "VenTech+Apps" // Replace with your developer ID
+        val developerId = "Mimi+Technologies" // Replace with your developer ID
         val playStoreUri = "https://play.google.com/store/apps/developer?id=$developerId"
 
         try {
