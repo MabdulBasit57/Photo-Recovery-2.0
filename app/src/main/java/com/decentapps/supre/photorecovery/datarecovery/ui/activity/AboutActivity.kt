@@ -39,6 +39,7 @@ class AboutActivity : AppCompatActivity() {
         setupActionBar()
         toggle()
         try {
+            findViewById<FrameLayout>(R.id.adContainer).removeAllViews()
             showTempelateNativeAd(this,BuildConfig.native_home,findViewById<FrameLayout>(R.id.adContainer))
         } catch (e: Exception) {
            e.printStackTrace()
@@ -87,11 +88,41 @@ class AboutActivity : AppCompatActivity() {
     }
 
     fun showTempelateNativeAd(context: Context, adUnitId: String, container: FrameLayout) {
-        if(AdUtils.nativeAdApp!=null){
-            AdUtils.nativeAdApp?.let { nativeAd->
-
+        if(AdUtils.nativeAdAppSetting!=null){
+            AdUtils.nativeAdAppSetting?.let { nativeAd->
+                container.visibility=View.VISIBLE
                 val inflater = LayoutInflater.from(context)
                 val adView = inflater.inflate(R.layout.medium_native, null) as NativeAdView
+                // Set views
+                adView.mediaView = adView.findViewById(R.id.ad_media)
+                adView.headlineView = adView.findViewById(R.id.ad_headline)
+                adView.bodyView = adView.findViewById(R.id.ad_body)
+                adView.callToActionView = adView.findViewById(R.id.ad_call_to_action)
+                adView.iconView = adView.findViewById(R.id.ad_app_icon)
+
+                // Bind content
+                (adView.headlineView as TextView).text = nativeAd.headline
+                (adView.bodyView as TextView).text = nativeAd.body
+                (adView.callToActionView as Button).text = nativeAd.callToAction
+                container.removeAllViews()
+                val icon = nativeAd.icon
+                if (icon != null) {
+                    (adView.iconView as ImageView).setImageDrawable(icon.drawable)
+                    adView.iconView?.visibility = View.VISIBLE
+                } else {
+                    adView.iconView?.visibility = View.GONE
+                }
+                adView.setNativeAd(nativeAd)
+                container.addView(adView)
+            }
+
+        }
+        else if(AdUtils.nativeAdAppSettingNormal!=null){
+            container.visibility=View.VISIBLE
+            AdUtils.nativeAdAppSettingNormal?.let { nativeAd->
+
+                val inflater = LayoutInflater.from(context)
+                val adView = inflater.inflate(R.layout.small_native, null) as NativeAdView
                 // Set views
                 adView.mediaView = adView.findViewById(R.id.ad_media)
                 adView.headlineView = adView.findViewById(R.id.ad_headline)
@@ -122,6 +153,7 @@ class AboutActivity : AppCompatActivity() {
                         val inflater = LayoutInflater.from(context)
                         val adView = inflater.inflate(R.layout.medium_native, null) as NativeAdView
                         // Set views
+                        container.visibility=View.VISIBLE
                         adView.mediaView = adView.findViewById(R.id.ad_media)
                         adView.headlineView = adView.findViewById(R.id.ad_headline)
                         adView.bodyView = adView.findViewById(R.id.ad_body)

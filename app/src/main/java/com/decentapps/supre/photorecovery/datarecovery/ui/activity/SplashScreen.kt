@@ -70,7 +70,8 @@ class SplashScreen : AppCompatActivity() {
                 AdUtils.loadFullScreenNativeAdLargeHf(this,BuildConfig.native_ob_full_scr_1_hf)
                 AdUtils.loadFullScreenNativeAdLarge2Hf(this,BuildConfig.native_ob_full_scr_2_hf)
             }
-            AdUtils.loadNative(this,BuildConfig.native_ob_full_scr_1_hf)
+            AdUtils.loadNative(this,BuildConfig.hf_native_home)
+            AdUtils.loadNativeSetting(this,BuildConfig.hf_native_setting)
         }
 
         // Load an ad.

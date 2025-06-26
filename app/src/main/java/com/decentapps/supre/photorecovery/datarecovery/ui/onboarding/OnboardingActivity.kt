@@ -6,10 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.viewpager2.widget.ViewPager2
+import com.decentapps.supre.photorecovery.datarecovery.BuildConfig
 import com.decentapps.supre.photorecovery.datarecovery.R
 import com.decentapps.supre.photorecovery.datarecovery.databinding.ActivityOnboardingBinding
 import com.decentapps.supre.photorecovery.datarecovery.ui.activity.HomeActivity
 import com.decentapps.supre.photorecovery.datarecovery.ui.onboarding.adapter.OnboardingPagerAdapter
+import com.decentapps.supre.photorecovery.datarecovery.utils.AdUtils
 import com.decentapps.supre.photorecovery.datarecovery.utils.SharedPrefHelper
 
 class OnboardingActivity : AppCompatActivity(){
@@ -18,6 +20,13 @@ class OnboardingActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        if(SharedPrefHelper.isFirstTime(this)){
+            AdUtils.loadNativeAdOB1Hf(this, BuildConfig.native_ob1_hf)
+            AdUtils.loadNativeAdOB2Hf(this, BuildConfig.native_ob2_hf)
+            AdUtils.loadNativeAdOB3Hf(this, BuildConfig.native_ob_3_hf)
+            AdUtils.loadFullScreenNativeAdLargeHf(this, BuildConfig.native_ob_full_scr_1_hf)
+            AdUtils.loadFullScreenNativeAdLarge2Hf(this, BuildConfig.native_ob_full_scr_2_hf)
+        }
         val adapter = OnboardingPagerAdapter(this)
         binding.viewPager.adapter = adapter
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {

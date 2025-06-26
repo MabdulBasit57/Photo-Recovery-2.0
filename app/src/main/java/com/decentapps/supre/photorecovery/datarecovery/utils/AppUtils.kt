@@ -5,10 +5,26 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.view.View
 
 object AppUtils {
     var filter:Int=0
-     fun rateApp(context:Context) {
+
+    fun hideSystemUI(activity: Activity) {
+        val window = activity.window
+        val decorView = window.decorView
+        decorView.systemUiVisibility = (
+                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                        or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_FULLSCREEN
+                )
+    }
+
+
+    fun rateApp(context:Context) {
         try {
             val rateIntent = rateIntentForUrl("market://details?id=",context)
             context.startActivity(rateIntent)

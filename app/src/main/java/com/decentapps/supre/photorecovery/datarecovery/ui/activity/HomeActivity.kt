@@ -2,6 +2,7 @@ package com.decentapps.supre.photorecovery.datarecovery.ui.activity
 
 import android.Manifest
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -14,8 +15,11 @@ import android.os.Handler
 import android.os.Looper
 import android.os.StatFs
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
+import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -38,6 +42,11 @@ import com.decentapps.supre.photorecovery.datarecovery.utils.AdUtils.requestHome
 import com.decentapps.supre.photorecovery.datarecovery.utils.Utils
 import com.decentapps.supre.photorecovery.datarecovery.utils.percentage
 import com.decentapps.supre.photorecovery.datarecovery.utils.storageValue
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdLoader
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.nativead.NativeAdView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -54,6 +63,14 @@ class HomeActivity :AppCompatActivity(){
         getStorage()
         checkPermissions()
         clickListener()
+        AdUtils.loadNative(this,BuildConfig.hf_native_home)
+        AdUtils.loadNativeSetting(this,BuildConfig.hf_native_setting)
+        try {
+            findViewById<FrameLayout>(R.id.adContainer).removeAllViews()
+            binding?.adContainer?.let { showTempelateNativeAd(this,BuildConfig.native_home, it) }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
         requestHomeInterstitialAd(this,BuildConfig.home_interstitial)
         binding.customToolbar.backToolbar.setOnClickListener {
             onBackPressed()
@@ -66,7 +83,107 @@ class HomeActivity :AppCompatActivity(){
         binding.customToolbar.backToolbar.visibility=View.GONE
         // Initialize views
     }
+    fun showTempelateNativeAd(context: Context, adUnitId: String, container: FrameLayout) {
+        if(AdUtils.nativeAdApp!=null){
+            container.visibility=View.VISIBLE
+            AdUtils.nativeAdApp?.let { nativeAd->
 
+                val inflater = LayoutInflater.from(context)
+                val adView = inflater.inflate(R.layout.small_native, null) as NativeAdView
+                // Set views
+                adView.mediaView = adView.findViewById(R.id.ad_media)
+                adView.headlineView = adView.findViewById(R.id.ad_headline)
+                adView.bodyView = adView.findViewById(R.id.ad_body)
+                adView.callToActionView = adView.findViewById(R.id.ad_call_to_action)
+                adView.iconView = adView.findViewById(R.id.ad_app_icon)
+
+                // Bind content
+                (adView.headlineView as TextView).text = nativeAd.headline
+                (adView.bodyView as TextView).text = nativeAd.body
+                (adView.callToActionView as Button).text = nativeAd.callToAction
+                container.removeAllViews()
+                val icon = nativeAd.icon
+                if (icon != null) {
+                    (adView.iconView as ImageView).setImageDrawable(icon.drawable)
+                    adView.iconView?.visibility = View.VISIBLE
+                } else {
+                    adView.iconView?.visibility = View.GONE
+                }
+                adView.setNativeAd(nativeAd)
+                container.addView(adView)
+            }
+
+        }
+        else if(AdUtils.nativeAdAppNormal!=null){
+            container.visibility=View.VISIBLE
+            AdUtils.nativeAdAppNormal?.let { nativeAd->
+
+                val inflater = LayoutInflater.from(context)
+                val adView = inflater.inflate(R.layout.small_native, null) as NativeAdView
+                // Set views
+                adView.mediaView = adView.findViewById(R.id.ad_media)
+                adView.headlineView = adView.findViewById(R.id.ad_headline)
+                adView.bodyView = adView.findViewById(R.id.ad_body)
+                adView.callToActionView = adView.findViewById(R.id.ad_call_to_action)
+                adView.iconView = adView.findViewById(R.id.ad_app_icon)
+
+                // Bind content
+                (adView.headlineView as TextView).text = nativeAd.headline
+                (adView.bodyView as TextView).text = nativeAd.body
+                (adView.callToActionView as Button).text = nativeAd.callToAction
+                container.removeAllViews()
+                val icon = nativeAd.icon
+                if (icon != null) {
+                    (adView.iconView as ImageView).setImageDrawable(icon.drawable)
+                    adView.iconView?.visibility = View.VISIBLE
+                } else {
+                    adView.iconView?.visibility = View.GONE
+                }
+                adView.setNativeAd(nativeAd)
+                container.addView(adView)
+            }
+
+        }
+        else{
+            val adLoader = AdLoader.Builder(context, adUnitId)
+                .forNativeAd { nativeAd ->
+                    val inflater = LayoutInflater.from(context)
+                    val adView = inflater.inflate(R.layout.small_native, null) as NativeAdView
+                    container.visibility=View.VISIBLE
+                    // Set views
+                    adView.mediaView = adView.findViewById(R.id.ad_media)
+                    adView.headlineView = adView.findViewById(R.id.ad_headline)
+                    adView.bodyView = adView.findViewById(R.id.ad_body)
+                    adView.callToActionView = adView.findViewById(R.id.ad_call_to_action)
+                    adView.iconView = adView.findViewById(R.id.ad_app_icon)
+
+                    // Bind content
+                    (adView.headlineView as TextView).text = nativeAd.headline
+                    (adView.bodyView as TextView).text = nativeAd.body
+                    (adView.callToActionView as Button).text = nativeAd.callToAction
+
+                    val icon = nativeAd.icon
+                    if (icon != null) {
+                        (adView.iconView as ImageView).setImageDrawable(icon.drawable)
+                        adView.iconView?.visibility = View.VISIBLE
+                    } else {
+                        adView.iconView?.visibility = View.GONE
+                    }
+                    adView.setNativeAd(nativeAd)
+                    container.removeAllViews()
+                    container.addView(adView)
+                }
+                .withAdListener(object : AdListener() {
+                    override fun onAdFailedToLoad(error: LoadAdError) {
+                        Log.e("NativeAd", "Failed to load: ${error.message}")
+                    }
+                })
+                .build()
+
+            adLoader.loadAd(AdRequest.Builder().build())
+        }
+
+    }
     override fun onBackPressed() {
         showRecoverDialog("Do you want to close the app?")
 //        super.onBackPressed()
@@ -351,6 +468,15 @@ class HomeActivity :AppCompatActivity(){
                 showPermissionDeniedToast()
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+      /*  try {
+            AdUtils.nativeAdApp=null
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }*/
     }
 
     private fun showPermissionDeniedToast() {

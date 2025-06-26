@@ -28,6 +28,9 @@ object AdUtils {
     var openAdCounter:Int=0
     var openAdThreashold:Int=2
     var nativeAdApp:NativeAd?=null
+    var nativeAdAppNormal:NativeAd?=null
+    var nativeAdAppSetting:NativeAd?=null
+    var nativeAdAppSettingNormal:NativeAd?=null
     var nativeAdOB1:NativeAd?=null
     var hfnativeAdOB1:NativeAd?=null
     var nativeAdOB2:NativeAd?=null
@@ -158,6 +161,7 @@ object AdUtils {
                     homeInterstitialAd = null
                     dismissAdLoadingDialog()
                     isAdAlreadyOpen=false
+                    requestHomeInterstitialAd(activity as Context,BuildConfig.home_interstitial)
                 }
                 override fun onAdFailedToShowFullScreenContent(adError: AdError) {
                     Log.e("Admob", "Ad failed to show Home.")
@@ -189,6 +193,56 @@ object AdUtils {
         val adLoader = AdLoader.Builder(context, adUnitId)
             .forNativeAd { nativeAd ->
                 nativeAdApp =nativeAd
+            }
+            .withAdListener(object : AdListener() {
+                override fun onAdFailedToLoad(error: LoadAdError) {
+                    Log.e("NativeAd", "Failed to load: ${error.message}")
+                    loadNativenormal(context,BuildConfig.native_home)
+                }
+            })
+            .build()
+        adLoader.loadAd(AdRequest.Builder().build())
+    }
+    fun loadNativenormal(context: Context,adUnitId: String){
+        if(nativeAdAppNormal !=null){
+            return
+        }
+        val adLoader = AdLoader.Builder(context, adUnitId)
+            .forNativeAd { nativeAd ->
+                nativeAdAppNormal =nativeAd
+            }
+            .withAdListener(object : AdListener() {
+                override fun onAdFailedToLoad(error: LoadAdError) {
+                    Log.e("NativeAd", "Failed to load: ${error.message}")
+                }
+            })
+            .build()
+        adLoader.loadAd(AdRequest.Builder().build())
+    }
+    fun loadNativeSetting(context: Context,adUnitId: String){
+        if(nativeAdAppSetting !=null){
+            return
+        }
+        val adLoader = AdLoader.Builder(context, adUnitId)
+            .forNativeAd { nativeAd ->
+                nativeAdAppSetting =nativeAd
+            }
+            .withAdListener(object : AdListener() {
+                override fun onAdFailedToLoad(error: LoadAdError) {
+                    Log.e("NativeAd", "Failed to load: ${error.message}")
+                    loadNativeSettingNormal(context,BuildConfig.native_setting)
+                }
+            })
+            .build()
+        adLoader.loadAd(AdRequest.Builder().build())
+    }
+    fun loadNativeSettingNormal(context: Context,adUnitId: String){
+        if(nativeAdAppSettingNormal !=null){
+            return
+        }
+        val adLoader = AdLoader.Builder(context, adUnitId)
+            .forNativeAd { nativeAd ->
+                nativeAdAppSettingNormal =nativeAd
             }
             .withAdListener(object : AdListener() {
                 override fun onAdFailedToLoad(error: LoadAdError) {
