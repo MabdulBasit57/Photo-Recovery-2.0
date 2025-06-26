@@ -161,6 +161,7 @@ object AdUtils {
                     homeInterstitialAd = null
                     dismissAdLoadingDialog()
                     isAdAlreadyOpen=false
+                    secondRequestHome=false
                     requestHomeInterstitialAd(activity as Context,BuildConfig.home_interstitial)
                 }
                 override fun onAdFailedToShowFullScreenContent(adError: AdError) {
