@@ -22,6 +22,8 @@ import com.decentapps.supre.photorecovery.datarecovery.R
 import com.decentapps.supre.photorecovery.datarecovery.databinding.FragmentBottomAd3Binding
 import com.decentapps.supre.photorecovery.datarecovery.ui.onboarding.OnboardingActivity
 import com.decentapps.supre.photorecovery.datarecovery.utils.AdUtils
+import com.google.android.gms.ads.VideoController
+import com.google.android.gms.ads.nativead.MediaView
 
 class BottomAdFragment3 : Fragment() {
     var mActivity:FragmentActivity?=null
@@ -57,89 +59,20 @@ class BottomAdFragment3 : Fragment() {
     fun loadFullScreenNativeAd(context: Context, adUnitId: String, container: FrameLayout) {
         if(AdUtils.hfnativeAdOB3!=null){
             AdUtils.hfnativeAdOB3?.let { nativeAd->
-                val inflater = LayoutInflater.from(context)
-                val adView = inflater.inflate(R.layout.medium_native, null) as NativeAdView
-                // Set views
-                adView.mediaView = adView.findViewById(R.id.ad_media)
-                adView.headlineView = adView.findViewById(R.id.ad_headline)
-                adView.bodyView = adView.findViewById(R.id.ad_body)
-                adView.callToActionView = adView.findViewById(R.id.ad_call_to_action)
-                adView.iconView = adView.findViewById(R.id.ad_app_icon)
-
-                // Bind content
-                (adView.headlineView as TextView).text = nativeAd.headline
-                (adView.bodyView as TextView).text = nativeAd.body
-                (adView.callToActionView as Button).text = nativeAd.callToAction
-                container.removeAllViews()
-                val icon = nativeAd.icon
-                if (icon != null) {
-                    (adView.iconView as ImageView).setImageDrawable(icon.drawable)
-                    adView.iconView?.visibility = View.VISIBLE
-                } else {
-                    adView.iconView?.visibility = View.GONE
-                }
-                adView.setNativeAd(nativeAd)
-
-                container.addView(adView)
+                AdUtils.populateNativeMedium(nativeAd,context,container)
             }
 
         }
         else{
             if(AdUtils.nativeAdOB3!=null){
                 AdUtils.nativeAdOB3?.let { nativeAd->
-                    val inflater = LayoutInflater.from(context)
-                    val adView = inflater.inflate(R.layout.medium_native, null) as NativeAdView
-                    // Set views
-                    adView.mediaView = adView.findViewById(R.id.ad_media)
-                    adView.headlineView = adView.findViewById(R.id.ad_headline)
-                    adView.bodyView = adView.findViewById(R.id.ad_body)
-                    adView.callToActionView = adView.findViewById(R.id.ad_call_to_action)
-                    adView.iconView = adView.findViewById(R.id.ad_app_icon)
-
-                    // Bind content
-                    (adView.headlineView as TextView).text = nativeAd.headline
-                    (adView.bodyView as TextView).text = nativeAd.body
-                    (adView.callToActionView as Button).text = nativeAd.callToAction
-                    container.removeAllViews()
-                    val icon = nativeAd.icon
-                    if (icon != null) {
-                        (adView.iconView as ImageView).setImageDrawable(icon.drawable)
-                        adView.iconView?.visibility = View.VISIBLE
-                    } else {
-                        adView.iconView?.visibility = View.GONE
-                    }
-                    adView.setNativeAd(nativeAd)
-
-                    container.addView(adView)
+                    AdUtils.populateNativeMedium(nativeAd,context,container)
                 }
             }
             else{
                 val adLoader = AdLoader.Builder(context, adUnitId)
                     .forNativeAd { nativeAd ->
-                        val inflater = LayoutInflater.from(context)
-                        val adView = inflater.inflate(R.layout.medium_native, null) as NativeAdView
-                        // Set views
-                        adView.mediaView = adView.findViewById(R.id.ad_media)
-                        adView.headlineView = adView.findViewById(R.id.ad_headline)
-                        adView.bodyView = adView.findViewById(R.id.ad_body)
-                        adView.callToActionView = adView.findViewById(R.id.ad_call_to_action)
-                        adView.iconView = adView.findViewById(R.id.ad_app_icon)
-
-                        // Bind content
-                        (adView.headlineView as TextView).text = nativeAd.headline
-                        (adView.bodyView as TextView).text = nativeAd.body
-                        (adView.callToActionView as Button).text = nativeAd.callToAction
-
-                        val icon = nativeAd.icon
-                        if (icon != null) {
-                            (adView.iconView as ImageView).setImageDrawable(icon.drawable)
-                            adView.iconView?.visibility = View.VISIBLE
-                        } else {
-                            adView.iconView?.visibility = View.GONE
-                        }
-                        adView.setNativeAd(nativeAd)
-                        container.removeAllViews()
-                        container.addView(adView)
+                        AdUtils.populateNativeMedium(nativeAd,context,container)
                     }
                     .withAdListener(object : AdListener() {
                         override fun onAdFailedToLoad(error: LoadAdError) {

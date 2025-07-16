@@ -9,6 +9,11 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
+import android.widget.Button
+import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.TextView
 import com.decentapps.supre.photorecovery.datarecovery.BuildConfig
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
@@ -19,8 +24,11 @@ import com.decentapps.supre.photorecovery.datarecovery.R
 import com.decentapps.supre.photorecovery.datarecovery.utils.Utils.isAdAlreadyOpen
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.VideoController
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.google.android.gms.ads.nativead.MediaView
+import com.google.android.gms.ads.nativead.NativeAdView
 
 object AdUtils {
     var adCounter:Int=0
@@ -59,6 +67,7 @@ object AdUtils {
         adLoadingDialog?.dismiss()
         adLoadingDialog = null
     }
+
     fun isInternetAvailable(context: Context): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
@@ -204,6 +213,175 @@ object AdUtils {
             .build()
         adLoader.loadAd(AdRequest.Builder().build())
     }
+    fun populateNativeLarge(nativeAd: NativeAd,context: Context,container: FrameLayout){
+        try {
+            val inflater = LayoutInflater.from(context)
+            val adView = inflater.inflate(R.layout.fullscreen_native, null) as NativeAdView
+
+            // Find views
+            val mediaView = adView.findViewById<MediaView>(R.id.ad_media)
+            val headlineView = adView.findViewById<TextView>(R.id.ad_headline)
+            val bodyView = adView.findViewById<TextView>(R.id.ad_body)
+            val callToActionView = adView.findViewById<Button>(R.id.ad_call_to_action)
+            val iconView = adView.findViewById<ImageView>(R.id.ad_app_icon)
+
+
+            adView.headlineView = headlineView
+            adView.bodyView = bodyView
+            adView.callToActionView = callToActionView
+            adView.iconView = iconView
+
+            // Set media content (image or video)
+            mediaView.setMediaContent(nativeAd.mediaContent)
+            // Assign views to NativeAdView
+            adView.mediaView = mediaView
+            // Optional: video lifecycle callbacks
+            nativeAd.mediaContent?.videoController?.videoLifecycleCallbacks =
+                object : VideoController.VideoLifecycleCallbacks() {
+                    override fun onVideoPlay() {
+                        Log.d("AdVideo", "Video is playing")
+                    }
+
+                    override fun onVideoEnd() {
+                        Log.d("AdVideo", "Video has ended")
+                    }
+                }
+
+            // Bind content
+            headlineView.text = nativeAd.headline ?: ""
+            nativeAd.body?.let {
+                bodyView.text = it
+                bodyView.visibility = View.VISIBLE
+            } ?: run {
+                bodyView.visibility = View.GONE
+            }
+
+            nativeAd.callToAction?.let {
+                callToActionView.text = it
+                callToActionView.visibility = View.VISIBLE
+            } ?: run {
+                callToActionView.visibility = View.GONE
+            }
+
+            nativeAd.icon?.let {
+                iconView.setImageDrawable(it.drawable)
+                iconView.visibility = View.VISIBLE
+            } ?: run {
+                iconView.visibility = View.GONE
+            }
+
+            // MUST: Set native ad to the adView before attaching to parent
+            adView.setNativeAd(nativeAd)
+
+            container.removeAllViews()
+            container.addView(adView)
+        }
+        catch (e:Exception){
+            e.printStackTrace()
+        }
+    }
+    fun populateNativeMedium(nativeAd: NativeAd,context: Context,container: FrameLayout){
+        try {
+            val inflater = LayoutInflater.from(context)
+            val adView = inflater.inflate(R.layout.medium_native, null) as NativeAdView
+
+            val mediaView = adView.findViewById<MediaView>(R.id.ad_media)
+            val headlineView = adView.findViewById<TextView>(R.id.ad_headline)
+            val bodyView = adView.findViewById<TextView>(R.id.ad_body)
+            val ctaView = adView.findViewById<Button>(R.id.ad_call_to_action)
+            val iconView = adView.findViewById<ImageView>(R.id.ad_app_icon)
+            adView.headlineView = headlineView
+            adView.bodyView = bodyView
+            adView.callToActionView = ctaView
+            adView.iconView = iconView
+
+            headlineView.text = nativeAd.headline
+            bodyView.text = nativeAd.body
+            ctaView.text = nativeAd.callToAction
+
+            val icon = nativeAd.icon
+            if (icon != null) {
+                iconView.setImageDrawable(icon.drawable)
+                iconView.visibility = View.VISIBLE
+            } else {
+                iconView.visibility = View.GONE
+            }
+
+            // Set media content (image or video)
+            mediaView.setMediaContent(nativeAd.mediaContent)
+            // Assign views to NativeAdView
+            adView.mediaView = mediaView
+
+            val videoController = nativeAd.mediaContent?.videoController
+            if (nativeAd.mediaContent?.hasVideoContent() == true) {
+                videoController?.videoLifecycleCallbacks = object : VideoController.VideoLifecycleCallbacks() {
+                    override fun onVideoEnd() {
+                        super.onVideoEnd()
+                        // Optional: do something
+                    }
+                }
+            }
+
+            adView.setNativeAd(nativeAd)
+            container.removeAllViews()
+            container.addView(adView)
+        }
+        catch (e:Exception){
+            e.printStackTrace()
+        }
+    }
+    fun populateNativeSmall(nativeAd: NativeAd,context: Context,container: FrameLayout){
+        try {
+            val inflater = LayoutInflater.from(context)
+            val adView = inflater.inflate(R.layout.small_native, null) as NativeAdView
+
+            val mediaView = adView.findViewById<MediaView>(R.id.ad_media)
+            val headlineView = adView.findViewById<TextView>(R.id.ad_headline)
+            val bodyView = adView.findViewById<TextView>(R.id.ad_body)
+            val ctaView = adView.findViewById<Button>(R.id.ad_call_to_action)
+            val iconView = adView.findViewById<ImageView>(R.id.ad_app_icon)
+
+            adView.headlineView = headlineView
+            adView.bodyView = bodyView
+            adView.callToActionView = ctaView
+            adView.iconView = iconView
+
+            headlineView.text = nativeAd.headline
+            bodyView.text = nativeAd.body
+            ctaView.text = nativeAd.callToAction
+
+            val icon = nativeAd.icon
+            if (icon != null) {
+                iconView.setImageDrawable(icon.drawable)
+                iconView.visibility = View.VISIBLE
+            } else {
+                iconView.visibility = View.GONE
+            }
+
+            // Set media content (image or video)
+            mediaView.setMediaContent(nativeAd.mediaContent)
+            // Assign views to NativeAdView
+            adView.mediaView = mediaView
+
+            val videoController = nativeAd.mediaContent?.videoController
+            if (nativeAd.mediaContent?.hasVideoContent() == true) {
+                videoController?.videoLifecycleCallbacks = object : VideoController.VideoLifecycleCallbacks() {
+                    override fun onVideoEnd() {
+                        super.onVideoEnd()
+                        // Optional: do something
+                    }
+                }
+            }
+
+            adView.setNativeAd(nativeAd)
+            container.removeAllViews()
+            container.addView(adView)
+        }
+        catch (e:Exception){
+            e.printStackTrace()
+        }
+    }
+
     fun loadNativenormal(context: Context,adUnitId: String){
         if(nativeAdAppNormal !=null){
             return

@@ -182,6 +182,6 @@ dependencies {
     //Google Ads
     implementation 'com.google.android.gms:play-services-ads:22.6.0'
     //Billings
-    implementation 'com.android.billingclient:billing:6.0.1'
+    implementation 'com.android.billingclient:billing:7.1.0'
 
 }
